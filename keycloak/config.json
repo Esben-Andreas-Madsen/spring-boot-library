@@ -10,7 +10,8 @@
       "publicClient": false,
       "secret": "super-secret-value",
       "redirectUris": ["*"],
-      "serviceAccountsEnabled": true
+      "serviceAccountsEnabled": true,
+      "directAccessGrantsEnabled": true
     }
   ],
 
