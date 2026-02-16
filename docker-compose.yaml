@@ -24,8 +24,11 @@ services:
       SPRING_DATASOURCE_PASSWORD: admin
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
     depends_on:
-      - postgres
       - keycloak
+      - postgres
+
+
+    #--------------- KEYCLOAK ---------------#
 
   keycloak:
     image: quay.io/keycloak/keycloak:26.0.0
@@ -37,7 +40,7 @@ services:
     environment:
       KC_DB: postgres
       KC_DB_URL_HOST: keycloak-db
-      KC_DB_URL_PORT: 5432
+      KC_DB_URL_PORT: 5433
       KC_DB_URL_DATABASE: keycloak_db
       KC_DB_USERNAME: keycloak
       KC_DB_PASSWORD: keycloak
@@ -46,7 +49,9 @@ services:
       KC_BOOTSTRAP_ADMIN_PASSWORD: admin
 
       KC_HTTP_ENABLED: true
-      KC_HOSTNAME: localhost
+      KC_HOSTNAME: keycloak
+      KC_HOSTNAME_STRICT: false
+      KC_LOG_LEVEL: error
     volumes:
     - ./keycloak:/opt/keycloak/data/import
     command: start-dev --import-realm
@@ -60,6 +65,8 @@ services:
       POSTGRES_USER: keycloak
       POSTGRES_PASSWORD: keycloak
       POSTGRES_DB: keycloak_db
+    ports:
+      - "5433:5433"
     volumes:
       - keycloak_postgres_data:/var/lib/postgresql/data
 
