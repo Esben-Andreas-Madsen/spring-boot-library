@@ -11,7 +11,6 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-
   app:
     build:
       context: ./spring-boot-library-backend/
@@ -26,6 +25,45 @@ services:
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
     depends_on:
       - postgres
+      - keycloak
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0.0
+    container_name: keycloak
+    depends_on:
+      - keycloak-db
+    ports:
+      - "8081:8080"
+    environment:
+      KC_DB: postgres
+      KC_DB_URL_HOST: keycloak-db
+      KC_DB_URL_PORT: 5432
+      KC_DB_URL_DATABASE: keycloak_db
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: keycloak
+
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+
+      KC_HTTP_ENABLED: true
+      KC_HOSTNAME: localhost
+    volumes:
+    - ./keycloak:/opt/keycloak/data/import
+    command: start-dev --import-realm
+    restart: unless-stopped
+
+
+  keycloak-db:
+    image: postgres:17
+    container_name: keycloak-db
+    environment:
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: keycloak
+      POSTGRES_DB: keycloak_db
+    volumes:
+      - keycloak_postgres_data:/var/lib/postgresql/data
+
 
 volumes:
   postgres_data:
+  keycloak_postgres_data:

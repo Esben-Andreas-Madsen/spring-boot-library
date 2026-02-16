@@ -1,0 +1,29 @@
+{
+  "realm": "library",
+  "enabled": true,
+
+  "clients": [
+    {
+      "clientId": "spring-app",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "secret": "super-secret-value",
+      "redirectUris": ["*"],
+      "serviceAccountsEnabled": true
+    }
+  ],
+
+  "users": [
+    {
+      "username": "user",
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password"
+        }
+      ]
+    }
+  ]
+}
