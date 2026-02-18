@@ -26,15 +26,19 @@ Build and start all services:
 `docker-compose up --build`
 
 ### Services
-Backend API URL: `http://localhost:8080`  
+#### Backend 
+API URL: `http://localhost:8080`  
 Connects to the `spring_boot_library_db` database  
 Uses OAuth2 Authorization Code flow with Keycloak  
 
-Keycloak
+#### Keycloak
 URL: `http://localhost:1852`  
 Admin username: `admin`  
 Admin password: `admin`  
 Runs in development mode with realm import enabled  
+Imported user credentials:  
+Username: `user`  
+Password: `password`  
 
 ### Authentication Configuration
 Client ID: `spring-app`  
