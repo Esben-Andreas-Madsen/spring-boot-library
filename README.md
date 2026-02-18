@@ -14,24 +14,18 @@ Practicing Spring Boot by making a library project with:
 ### Spring Boot Library – Docker Setup
 Dockerized development environment for a Spring Boot backend secured with OAuth2 (Keycloak) and backed by PostgreSQL.
 
-### Stack
-Backend: Spring Boot (`port 8080`)  
-Application Database: PostgreSQL 17 (`port 5432`)  
-Authentication Server: Keycloak 26.4 (`port 1852`)  
-Keycloak Database: PostgreSQL 17  
-Containerization: Dockerfile + Docker Compose  
-
 ### Running the Project
 Build and start all services:
 `docker-compose up --build`  
 
-### Services
-#### Backend 
+## Services
+### Spring Backend API
 API URL: `http://localhost:8080`  
 Connects to the `spring_boot_library_db` database  
 Uses OAuth2 Authorization Code flow with Keycloak  
+Use credentials `user` and `password` to authorize OAuth2
 
-### API Endpoints
+#### API Endpoints
 #### Books
 | HTTP Method | Endpoint           | Description            | Request Body           | Response Type     |
 |------------|--------------------|------------------------|------------------------|------------------|
@@ -51,7 +45,7 @@ Uses OAuth2 Authorization Code flow with Keycloak
 | DELETE     | /api/authors/{id}   | Delete author by ID      | —                       | void (204/200)     |
 
 
-#### Keycloak
+### Keycloak
 URL: `http://localhost:1852`  
 Admin username: `admin`  
 Admin password: `admin`  
