@@ -72,3 +72,5 @@ Hibernate `ddl-auto=update` is enabled
 Default credentials are for local development only  
 Not production-ready without proper security hardening  
 
+Ran into a docker compose problem where Spring would only access the issuer uri internally, which redirected to keycloak externally which wasn't a resolvable hostname.
+Got around it by using host.docker.internal for now.
