@@ -23,13 +23,33 @@ Containerization: Dockerfile + Docker Compose
 
 ### Running the Project
 Build and start all services:
-`docker-compose up --build`
+`docker-compose up --build`  
 
 ### Services
 #### Backend 
 API URL: `http://localhost:8080`  
 Connects to the `spring_boot_library_db` database  
 Uses OAuth2 Authorization Code flow with Keycloak  
+
+### API Endpoints
+#### Books
+| HTTP Method | Endpoint           | Description            | Request Body           | Response Type     |
+|------------|--------------------|------------------------|------------------------|------------------|
+| GET        | /api/books         | Get all books          | —                      | List<BookDto>    |
+| GET        | /api/books/{id}    | Get book by ID         | —                      | BookDto          |
+| POST       | /api/books         | Create new book        | CreateBookRequest      | BookDto          |
+| PUT        | /api/books/{id}    | Update existing book   | UpdateBookRequest      | BookDto          |
+| DELETE     | /api/books/{id}    | Delete book by ID      | —                      | void (204/200)   |
+
+#### Authors
+| HTTP Method | Endpoint            | Description              | Request Body            | Response Type       |
+|------------|---------------------|--------------------------|-------------------------|--------------------|
+| GET        | /api/authors        | Get all authors          | —                       | List<AuthorDto>    |
+| GET        | /api/authors/{id}   | Get author by ID         | —                       | AuthorDto          |
+| POST       | /api/authors        | Create new author        | CreateAuthorRequest     | AuthorDto          |
+| PUT        | /api/authors/{id}   | Update existing author   | UpdateAuthorRequest     | AuthorDto          |
+| DELETE     | /api/authors/{id}   | Delete author by ID      | —                       | void (204/200)     |
+
 
 #### Keycloak
 URL: `http://localhost:1852`  
