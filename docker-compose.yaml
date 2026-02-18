@@ -10,6 +10,8 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - local_network
 
   app:
     build:
@@ -23,39 +25,70 @@ services:
       SPRING_DATASOURCE_USERNAME: admin
       SPRING_DATASOURCE_PASSWORD: admin
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
-    depends_on:
-      - keycloak
-      - postgres
+      SPRING_SQL_INIT_MODE: always
+      SPRING_JPA_DEFER_DATASOURCE_INITIALIZATION: true
 
+      SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_ISSUER_URI: http://host.docker.internal:1852/realms/library # fine for local dev
+      SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KEYCLOAK_CLIENT_ID: spring-app
+      SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KEYCLOAK_CLIENT_SECRET: super-secret-value
+      SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KEYCLOAK_SCOPE: openid
+      SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KEYCLOAK_AUTHORIZATION_GRANT_TYPE: authorization_code
+      SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KEYCLOAK_REDIRECT_URI: "{baseUrl}/login/oauth2/code/{registrationId}"
+
+    depends_on:
+      keycloak:
+        condition: service_healthy
+      postgres:
+        condition: service_started
+    networks:
+      - local_network
 
     #--------------- KEYCLOAK ---------------#
 
   keycloak:
-    image: quay.io/keycloak/keycloak:26.0.0
+    image: quay.io/keycloak/keycloak:26.4.0
     container_name: keycloak
     depends_on:
       - keycloak-db
     ports:
-      - "8081:8080"
+      - "1852:1852"
     environment:
       KC_DB: postgres
       KC_DB_URL_HOST: keycloak-db
       KC_DB_URL_PORT: 5432
       KC_DB_URL_DATABASE: keycloak_db
       KC_DB_USERNAME: keycloak
-      KC_DB_PASSWORD: keycloak
-
+      KC_DB_PASSWORD: password
+      
       KC_BOOTSTRAP_ADMIN_USERNAME: admin
       KC_BOOTSTRAP_ADMIN_PASSWORD: admin
 
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      # KC_HEALTH_ENABLED: true
+      # KC_HOSTNAME_BACKCHANNEL_DYNAMIC: true
+      # KC_HOSTNAME: http://localhost:1852/
+
       KC_HTTP_ENABLED: true
-      KC_HOSTNAME: keycloak
-      KC_HOSTNAME_STRICT: false
-      KC_LOG_LEVEL: error
+      KC_HTTP_PORT: 1852
+
+    command: start-dev --import-realm --health-enabled=true
+    healthcheck:
+      test: 
+        [
+          "CMD-SHELL",
+          "exec 3<>/dev/tcp/127.0.0.1/9000; echo -e 'GET /health/ready HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n' >&3; grep 'HTTP/1.1 200 OK' <&3",
+        ]
+      interval: 15s
+      timeout: 2s
+      retries: 15
+      start_period: 15s 
+      start_interval: 5s
     volumes:
-    - ./keycloak:/opt/keycloak/data/import
-    command: start-dev --import-realm
-    restart: unless-stopped
+      - ./keycloak:/opt/keycloak/data/import
+    networks:
+      - local_network
+
 
 
   keycloak-db:
@@ -63,12 +96,21 @@ services:
     container_name: keycloak-db
     environment:
       POSTGRES_USER: keycloak
-      POSTGRES_PASSWORD: keycloak
+      POSTGRES_PASSWORD: password
       POSTGRES_DB: keycloak_db
     volumes:
       - keycloak_postgres_data:/var/lib/postgresql/data
+    networks:
+      - local_network
 
 
 volumes:
   postgres_data:
   keycloak_postgres_data:
+
+
+networks:
+  local_network:
+    driver: bridge
+    # name: spring-boot-library_default
+    # external: true
