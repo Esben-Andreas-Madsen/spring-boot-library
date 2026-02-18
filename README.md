@@ -26,7 +26,7 @@ Uses OAuth2 Authorization Code flow with Keycloak
 Use credentials `user` and `password` to authorize OAuth2
 
 #### API Endpoints
-#### Books
+#### Books (`/api/books`)
 | HTTP Method | Endpoint           | Description            | Request Body           | Response Type     |
 |------------|--------------------|------------------------|------------------------|------------------|
 | GET        | /api/books         | Get all books          | —                      | List<BookDto>    |
@@ -35,7 +35,7 @@ Use credentials `user` and `password` to authorize OAuth2
 | PUT        | /api/books/{id}    | Update existing book   | UpdateBookRequest      | BookDto          |
 | DELETE     | /api/books/{id}    | Delete book by ID      | —                      | void (204/200)   |
 
-#### Authors
+#### Authors (`/api/authors`)
 | HTTP Method | Endpoint            | Description              | Request Body            | Response Type       |
 |------------|---------------------|--------------------------|-------------------------|--------------------|
 | GET        | /api/authors        | Get all authors          | —                       | List<AuthorDto>    |
