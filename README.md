@@ -54,7 +54,7 @@ Imported user credentials:
 Username: `user`  
 Password: `password`  
 
-### Authentication Configuration
+#### Authentication Configuration
 Client ID: `spring-app`  
 Grant type: `authorization_code`  
 Scope: `openid`  
