@@ -1,4 +1,4 @@
-package io.github.eama.spring_boot_library_backend.api.dto.response;
+package io.github.eama.spring_boot_library_backend.dto.response;
 
 import java.util.Set;
 
@@ -11,6 +11,8 @@ public class AuthorDto {
     // avoid bidirectional nesting --> infinite recursion
     // a design choice
     private Set<Integer> bookIds;
+
+    /// getters setters
 
     public Integer getId() {
         return id;

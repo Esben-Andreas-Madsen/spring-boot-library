@@ -1,41 +1,34 @@
 package io.github.eama.spring_boot_library_backend.api.mapper;
 
-import io.github.eama.spring_boot_library_backend.api.dto.response.AuthorDto;
+import io.github.eama.spring_boot_library_backend.dto.response.AuthorDto;
 import io.github.eama.spring_boot_library_backend.domain.Author;
 import io.github.eama.spring_boot_library_backend.domain.Book;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
+import java.util.Set;
 import java.util.stream.Collectors;
 
-public class AuthorMapper {
 
-    // Full mapping: Author → AuthorDto
-    public static AuthorDto toDto(Author author) {
-        if (author == null) return null;
+@Mapper(componentModel = "spring")
+public interface AuthorMapper {
 
-        AuthorDto dto = new AuthorDto();
-        dto.setId(author.getId());
-        dto.setName(author.getName());
-        dto.setBirthYear(author.getBirthYear());
+    @Mapping(target = "books", ignore = true)
+        // we handle authors manually
+    Author toEntity(AuthorDto dto);
 
-        // Avoid deep nesting: just return book IDs
-        dto.setBookIds(
-                author.getBooks().stream()
-                        .map(Book::getId)
-                        .collect(Collectors.toSet())
-        );
 
-        return dto;
-    }
+//    @Mapping(target = "bookIds", expression = "java(mapBooks(author.getBooks()))")
+//    AuthorDto toDto(Author author);
 
-    // Shallow mapping: Author → AuthorDto (without books)
-    public static AuthorDto toDtoShallow(Author author) {
-        if (author == null) return null;
+    @Mapping(source = "books", target = "bookIds")
+    AuthorDto toDto(Author author);
 
-        AuthorDto dto = new AuthorDto();
-        dto.setId(author.getId());
-        dto.setName(author.getName());
-        dto.setBirthYear(author.getBirthYear());
-        return dto;
+
+    default Set<Integer> mapBooks(Set<Book> books) {
+        if (books == null) return Set.of();
+        return books.stream()
+                .map(Book::getId)
+                .collect(Collectors.toSet());
     }
 }
-

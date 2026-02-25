@@ -1,9 +1,10 @@
-package io.github.eama.spring_boot_library_backend.api.dto.response;
+package io.github.eama.spring_boot_library_backend.repository.specification;
+
+import io.github.eama.spring_boot_library_backend.dto.response.AuthorDto;
 
 import java.util.Set;
 
-public class BookDto {
-
+public class BookFilter {
     private Integer id;
     private String title;
     private Integer publishedYear;
