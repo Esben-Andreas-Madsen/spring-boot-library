@@ -32,11 +32,6 @@ public class AuthorService {
     // ---------- READ ----------
 
     @Transactional(readOnly = true)
-    public List<AuthorDto> findAll() {
-        return authorRepository.findAll().stream().map(authorMapper::toDto).toList();
-    }
-
-    @Transactional(readOnly = true)
     public AuthorDto findById(Integer id) {
         return authorMapper.toDto(authorRepository.findById(id).orElseThrow(() -> new RuntimeException("Author not found")));
     }
