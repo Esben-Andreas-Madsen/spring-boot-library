@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/books")
@@ -44,7 +43,8 @@ public class BookController {
 
     // ---------- UPDATE BOOK ----------
     @PutMapping("/{id}")
-    public ResponseEntity<BookDto> updateBook(@PathVariable Integer id, @Valid @RequestBody UpdateBookRequest request) {
+    public ResponseEntity<BookDto> updateBook(@PathVariable Integer id,
+                                              @Valid @RequestBody UpdateBookRequest request) {
         BookDto updated = bookService.update(id, request);
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -62,7 +62,7 @@ public class BookController {
 
     @GetMapping
     public ResponseEntity<Page<BookDto>> getBooks(@Valid BookFilter filter,
-                                                      @PageableDefault(size = 20,
+                                                  @PageableDefault(size = 20,
                                                               sort = "title") Pageable pageable) {
         Page<BookDto> foundBooks = bookService.getBooks(filter, pageable);
         return ResponseEntity

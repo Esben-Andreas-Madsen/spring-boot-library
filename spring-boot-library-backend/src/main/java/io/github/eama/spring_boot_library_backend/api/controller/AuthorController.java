@@ -23,14 +23,6 @@ public class AuthorController {
         this.authorService = authorService;
     }
 
-//    // ---------- GET ALL AUTHORS ----------
-//    @GetMapping
-//    public ResponseEntity<List<AuthorDto>> getAllAuthors() {
-//        List<AuthorDto> allAuthors = authorService.findAll();
-//        return ResponseEntity
-//                .status(HttpStatus.OK)
-//                .body(allAuthors);
-//    }
 
     // ---------- GET AUTHOR BY ID ----------
     @GetMapping("/{id}")
