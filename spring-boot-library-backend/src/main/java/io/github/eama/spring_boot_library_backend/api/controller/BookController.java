@@ -1,16 +1,14 @@
 package io.github.eama.spring_boot_library_backend.api.controller;
 
-import io.github.eama.spring_boot_library_backend.dto.request.book.CreateBookRequest;
-import io.github.eama.spring_boot_library_backend.dto.request.book.UpdateBookRequest;
-import io.github.eama.spring_boot_library_backend.dto.response.BookDto;
-import io.github.eama.spring_boot_library_backend.api.mapper.BookMapper;
+import io.github.eama.spring_boot_library_backend.api.dto.request.book.CreateBookRequest;
+import io.github.eama.spring_boot_library_backend.api.dto.request.book.UpdateBookRequest;
+import io.github.eama.spring_boot_library_backend.api.dto.response.BookDto;
 import io.github.eama.spring_boot_library_backend.service.BookService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/books")

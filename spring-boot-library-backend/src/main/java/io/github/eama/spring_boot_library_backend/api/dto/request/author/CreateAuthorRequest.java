@@ -1,4 +1,4 @@
-package io.github.eama.spring_boot_library_backend.dto.request.author;
+package io.github.eama.spring_boot_library_backend.api.dto.request.author;
 import lombok.Data;
 
 @Data

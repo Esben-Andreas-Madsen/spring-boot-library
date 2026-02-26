@@ -1,4 +1,4 @@
-package io.github.eama.spring_boot_library_backend.api.security;
+package io.github.eama.spring_boot_library_backend.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

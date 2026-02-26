@@ -1,6 +1,6 @@
-package io.github.eama.spring_boot_library_backend.api.mapper;
+package io.github.eama.spring_boot_library_backend.mapper;
 
-import io.github.eama.spring_boot_library_backend.dto.response.AuthorDto;
+import io.github.eama.spring_boot_library_backend.api.dto.response.AuthorDto;
 import io.github.eama.spring_boot_library_backend.domain.Author;
 import io.github.eama.spring_boot_library_backend.domain.Book;
 import org.mapstruct.Mapper;

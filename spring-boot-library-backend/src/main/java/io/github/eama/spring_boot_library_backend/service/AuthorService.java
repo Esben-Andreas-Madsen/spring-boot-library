@@ -1,10 +1,10 @@
 package io.github.eama.spring_boot_library_backend.service;
 
-import io.github.eama.spring_boot_library_backend.api.mapper.AuthorMapper;
-import io.github.eama.spring_boot_library_backend.dto.request.author.CreateAuthorRequest;
-import io.github.eama.spring_boot_library_backend.dto.request.author.UpdateAuthorRequest;
+import io.github.eama.spring_boot_library_backend.mapper.AuthorMapper;
+import io.github.eama.spring_boot_library_backend.api.dto.request.author.CreateAuthorRequest;
+import io.github.eama.spring_boot_library_backend.api.dto.request.author.UpdateAuthorRequest;
 import io.github.eama.spring_boot_library_backend.domain.Author;
-import io.github.eama.spring_boot_library_backend.dto.response.AuthorDto;
+import io.github.eama.spring_boot_library_backend.api.dto.response.AuthorDto;
 import io.github.eama.spring_boot_library_backend.repository.specification.AuthorFilter;
 import io.github.eama.spring_boot_library_backend.repository.AuthorRepository;
 import io.github.eama.spring_boot_library_backend.repository.specification.AuthorSpecification;

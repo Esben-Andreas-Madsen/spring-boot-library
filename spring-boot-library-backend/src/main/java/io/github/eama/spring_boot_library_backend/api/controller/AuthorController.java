@@ -1,8 +1,8 @@
 package io.github.eama.spring_boot_library_backend.api.controller;
 
-import io.github.eama.spring_boot_library_backend.dto.request.author.CreateAuthorRequest;
-import io.github.eama.spring_boot_library_backend.dto.request.author.UpdateAuthorRequest;
-import io.github.eama.spring_boot_library_backend.dto.response.AuthorDto;
+import io.github.eama.spring_boot_library_backend.api.dto.request.author.CreateAuthorRequest;
+import io.github.eama.spring_boot_library_backend.api.dto.request.author.UpdateAuthorRequest;
+import io.github.eama.spring_boot_library_backend.api.dto.response.AuthorDto;
 import io.github.eama.spring_boot_library_backend.repository.specification.AuthorFilter;
 import io.github.eama.spring_boot_library_backend.service.AuthorService;
 import org.springframework.data.domain.Page;
@@ -12,8 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/authors")

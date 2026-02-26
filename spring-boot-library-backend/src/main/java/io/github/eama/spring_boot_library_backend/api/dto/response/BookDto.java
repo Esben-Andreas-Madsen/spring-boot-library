@@ -1,4 +1,4 @@
-package io.github.eama.spring_boot_library_backend.dto.response;
+package io.github.eama.spring_boot_library_backend.api.dto.response;
 
 import java.util.Set;
 

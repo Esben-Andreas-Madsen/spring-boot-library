@@ -1,7 +1,7 @@
-package io.github.eama.spring_boot_library_backend.api.mapper;
+package io.github.eama.spring_boot_library_backend.mapper;
 
 import io.github.eama.spring_boot_library_backend.domain.Author;
-import io.github.eama.spring_boot_library_backend.dto.response.BookDto;
+import io.github.eama.spring_boot_library_backend.api.dto.response.BookDto;
 import io.github.eama.spring_boot_library_backend.domain.Book;
 
 import java.util.stream.Collectors;
@@ -10,7 +10,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface BookMapper {

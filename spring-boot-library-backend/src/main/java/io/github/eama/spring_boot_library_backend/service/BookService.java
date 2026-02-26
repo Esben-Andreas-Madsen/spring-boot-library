@@ -1,11 +1,11 @@
 package io.github.eama.spring_boot_library_backend.service;
 
-import io.github.eama.spring_boot_library_backend.api.mapper.BookMapper;
-import io.github.eama.spring_boot_library_backend.dto.request.book.CreateBookRequest;
-import io.github.eama.spring_boot_library_backend.dto.request.book.UpdateBookRequest;
+import io.github.eama.spring_boot_library_backend.mapper.BookMapper;
+import io.github.eama.spring_boot_library_backend.api.dto.request.book.CreateBookRequest;
+import io.github.eama.spring_boot_library_backend.api.dto.request.book.UpdateBookRequest;
 import io.github.eama.spring_boot_library_backend.domain.Author;
 import io.github.eama.spring_boot_library_backend.domain.Book;
-import io.github.eama.spring_boot_library_backend.dto.response.BookDto;
+import io.github.eama.spring_boot_library_backend.api.dto.response.BookDto;
 import io.github.eama.spring_boot_library_backend.repository.AuthorRepository;
 import io.github.eama.spring_boot_library_backend.repository.BookRepository;
 import org.springframework.stereotype.Service;
