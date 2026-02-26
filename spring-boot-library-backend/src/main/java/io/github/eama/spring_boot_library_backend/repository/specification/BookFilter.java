@@ -5,22 +5,15 @@ import io.github.eama.spring_boot_library_backend.api.dto.response.AuthorDto;
 import java.util.Set;
 
 public class BookFilter {
-    private Integer id;
+
     private String title;
-    private Integer publishedYear;
+    private Integer publishedYearFrom;
+    private Integer publishedYearTo;
     private String isbn;
-    private Integer pages;
     private String language;
-
-    private Set<AuthorDto> authors;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    private Integer pagesFrom;
+    private Integer pagesTo;
+    private Integer authorId;
 
     public String getTitle() {
         return title;
@@ -30,12 +23,20 @@ public class BookFilter {
         this.title = title;
     }
 
-    public Integer getPublishedYear() {
-        return publishedYear;
+    public Integer getPublishedYearFrom() {
+        return publishedYearFrom;
     }
 
-    public void setPublishedYear(Integer publishedYear) {
-        this.publishedYear = publishedYear;
+    public void setPublishedYearFrom(Integer publishedYearFrom) {
+        this.publishedYearFrom = publishedYearFrom;
+    }
+
+    public Integer getPublishedYearTo() {
+        return publishedYearTo;
+    }
+
+    public void setPublishedYearTo(Integer publishedYearTo) {
+        this.publishedYearTo = publishedYearTo;
     }
 
     public String getIsbn() {
@@ -46,14 +47,6 @@ public class BookFilter {
         this.isbn = isbn;
     }
 
-    public Integer getPages() {
-        return pages;
-    }
-
-    public void setPages(Integer pages) {
-        this.pages = pages;
-    }
-
     public String getLanguage() {
         return language;
     }
@@ -62,11 +55,27 @@ public class BookFilter {
         this.language = language;
     }
 
-    public Set<AuthorDto> getAuthors() {
-        return authors;
+    public Integer getPagesFrom() {
+        return pagesFrom;
     }
 
-    public void setAuthors(Set<AuthorDto> authors) {
-        this.authors = authors;
+    public void setPagesFrom(Integer pagesFrom) {
+        this.pagesFrom = pagesFrom;
+    }
+
+    public Integer getPagesTo() {
+        return pagesTo;
+    }
+
+    public void setPagesTo(Integer pagesTo) {
+        this.pagesTo = pagesTo;
+    }
+
+    public Integer getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(Integer authorId) {
+        this.authorId = authorId;
     }
 }

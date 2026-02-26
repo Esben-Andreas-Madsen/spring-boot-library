@@ -5,28 +5,111 @@ import org.springframework.data.jpa.domain.Specification;
 
 public class BookSpecification {
 
-    private static Specification<Book> hasTitle(String title) {
-        return (root, query, cb) ->
-                title == null ? null :
-                        cb.like(cb.lower(root.get("title")),
-                                "%" + title.toLowerCase() + "%");
+    public static Specification<Book> build(BookFilter filter) {
+
+        if (filter == null) {
+            return Specification.where((Specification<Book>) null);
+        }
+
+        return Specification
+                .where(hasTitle(filter.getTitle()))
+                .and(publishedYearGreaterThan(filter.getPublishedYearFrom()))
+                .and(publishedYearLessThan(filter.getPublishedYearTo()))
+                .and(hasIsbn(filter.getIsbn()))
+                .and(hasLanguage(filter.getLanguage()))
+                .and(pagesGreaterThan(filter.getPagesFrom()))
+                .and(pagesLessThan(filter.getPagesTo()))
+                .and(hasAuthorId(filter.getAuthorId()));
     }
 
-    private static Specification<Book> hasAuthor(Integer authorId) {
-        return (root, query, cb) ->
-                authorId == null ? null :
-                        cb.equal(root.join("authors").get("id"), authorId);
+    public static Specification<Book> hasTitle(String title) {
+        return (root, query, cb) -> {
+            if (title == null || title.isBlank()) {
+                return null;
+            }
+
+            return cb.like(
+                    cb.lower(root.get("title")),
+                    "%" + title.toLowerCase() + "%"
+            );
+        };
     }
 
-    private static Specification<Book> yearGreaterThan(Integer year) {
-        return (root, query, cb) ->
-                year == null ? null :
-                        cb.greaterThan(root.get("year"), year);
+    public static Specification<Book> publishedYearGreaterThan(Integer year) {
+        return (root, query, cb) -> {
+            if (year == null) {
+                return null;
+            }
+
+            return cb.greaterThanOrEqualTo(root.get("publishedYear"), year);
+        };
     }
 
-    private static Specification<Book> yearLessThan(Integer year) {
-        return (root, query, cb) ->
-                year == null ? null :
-                        cb.lessThan(root.get("year"), year);
+    public static Specification<Book> publishedYearLessThan(Integer year) {
+        return (root, query, cb) -> {
+            if (year == null) {
+                return null;
+            }
+
+            return cb.lessThanOrEqualTo(root.get("publishedYear"), year);
+        };
+    }
+
+    public static Specification<Book> hasIsbn(String isbn) {
+        return (root, query, cb) -> {
+            if (isbn == null || isbn.isBlank()) {
+                return null;
+            }
+
+            return cb.equal(root.get("isbn"), isbn);
+        };
+    }
+
+    public static Specification<Book> hasLanguage(String language) {
+        return (root, query, cb) -> {
+            if (language == null || language.isBlank()) {
+                return null;
+            }
+
+            return cb.equal(
+                    cb.lower(root.get("language")),
+                    language.toLowerCase()
+            );
+        };
+    }
+
+    public static Specification<Book> pagesGreaterThan(Integer pages) {
+        return (root, query, cb) -> {
+            if (pages == null) {
+                return null;
+            }
+
+            return cb.greaterThanOrEqualTo(root.get("pages"), pages);
+        };
+    }
+
+    public static Specification<Book> pagesLessThan(Integer pages) {
+        return (root, query, cb) -> {
+            if (pages == null) {
+                return null;
+            }
+
+            return cb.lessThanOrEqualTo(root.get("pages"), pages);
+        };
+    }
+
+    public static Specification<Book> hasAuthorId(Integer authorId) {
+        return (root, query, cb) -> {
+            if (authorId == null) {
+                return null;
+            }
+
+            query.distinct(true);
+
+            return cb.equal(
+                    root.join("authors").get("id"),
+                    authorId
+            );
+        };
     }
 }
