@@ -56,4 +56,14 @@ public class Author {
     public void setBooks(Set<Book> books) {
         this.books = books;
     }
+
+    @Override
+    public String toString() {
+        return "Author{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", birthYear=" + birthYear +
+                ", books=" + books +
+                '}';
+    }
 }
