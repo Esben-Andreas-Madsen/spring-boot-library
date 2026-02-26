@@ -9,6 +9,7 @@ public class BookFilter {
     private String title;
     private Integer publishedYearFrom;
     private Integer publishedYearTo;
+    private Integer publishedYear;
     private String isbn;
     private String language;
     private Integer pagesFrom;
@@ -37,6 +38,14 @@ public class BookFilter {
 
     public void setPublishedYearTo(Integer publishedYearTo) {
         this.publishedYearTo = publishedYearTo;
+    }
+
+    public Integer getPublishedYear() {
+        return publishedYear;
+    }
+
+    public void setPublishedYear(Integer publishedYear) {
+        this.publishedYear = publishedYear;
     }
 
     public String getIsbn() {

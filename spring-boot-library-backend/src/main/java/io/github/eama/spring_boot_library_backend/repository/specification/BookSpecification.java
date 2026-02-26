@@ -19,6 +19,7 @@ public class BookSpecification {
                 .and(hasLanguage(filter.getLanguage()))
                 .and(pagesGreaterThan(filter.getPagesFrom()))
                 .and(pagesLessThan(filter.getPagesTo()))
+                .and(publishedYearEquals(filter.getPublishedYear()))
                 .and(hasAuthorId(filter.getAuthorId()));
     }
 
@@ -32,6 +33,15 @@ public class BookSpecification {
                     cb.lower(root.get("title")),
                     "%" + title.toLowerCase() + "%"
             );
+        };
+    }
+
+    public static Specification<Book> publishedYearEquals(Integer year) {
+        return (root, query, cb) -> {
+            if (year == null) {
+                return null;
+            }
+            return cb.equal(root.get("publishedYear"), year);
         };
     }
 
