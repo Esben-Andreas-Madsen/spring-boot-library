@@ -1,9 +1,5 @@
 package io.github.eama.spring_boot_library_backend.repository.specification;
 
-import io.github.eama.spring_boot_library_backend.api.dto.response.AuthorDto;
-
-import java.util.Set;
-
 public class BookFilter {
 
     private String title;
@@ -15,6 +11,7 @@ public class BookFilter {
     private Integer pagesFrom;
     private Integer pagesTo;
     private Integer authorId;
+    private Integer genreId;
 
     public String getTitle() {
         return title;
@@ -86,5 +83,13 @@ public class BookFilter {
 
     public void setAuthorId(Integer authorId) {
         this.authorId = authorId;
+    }
+
+    public Integer getGenreId() {
+        return genreId;
+    }
+
+    public void setGenreId(Integer genreId) {
+        this.genreId = genreId;
     }
 }

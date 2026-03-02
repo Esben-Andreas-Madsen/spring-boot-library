@@ -47,6 +47,86 @@ INSERT INTO books (title, published_year, isbn, pages, language) VALUES
 
 
 -- =========================
+-- GENRES
+-- =========================
+INSERT INTO genres (name) VALUES
+('Dystopian'),
+('Political Satire'),
+('Romance'),
+('Fantasy'),
+('Horror'),
+('Mystery'),
+('Science Fiction'),
+('Comedy');
+
+-- =========================
+-- BOOK_GENRES
+-- =========================
+
+-- 1984
+INSERT INTO book_genres (book_id, genre_id)
+SELECT b.id, g.id
+FROM books b
+JOIN genres g ON g.name IN ('Dystopian', 'Political Satire')
+WHERE b.title = '1984';
+
+-- Animal Farm
+INSERT INTO book_genres (book_id, genre_id)
+SELECT b.id, g.id
+FROM books b
+JOIN genres g ON g.name IN ('Political Satire')
+WHERE b.title = 'Animal Farm';
+
+-- Pride and Prejudice + Emma
+INSERT INTO book_genres (book_id, genre_id)
+SELECT b.id, g.id
+FROM books b
+JOIN genres g ON g.name = 'Romance'
+WHERE b.title IN ('Pride and Prejudice', 'Emma');
+
+-- Harry Potter
+INSERT INTO book_genres (book_id, genre_id)
+SELECT b.id, g.id
+FROM books b
+JOIN genres g ON g.name = 'Fantasy'
+WHERE b.title LIKE 'Harry Potter%';
+
+-- Tolkien
+INSERT INTO book_genres (book_id, genre_id)
+SELECT b.id, g.id
+FROM books b
+JOIN genres g ON g.name = 'Fantasy'
+WHERE b.title IN ('The Hobbit', 'The Fellowship of the Ring');
+
+-- Stephen King
+INSERT INTO book_genres (book_id, genre_id)
+SELECT b.id, g.id
+FROM books b
+JOIN genres g ON g.name = 'Horror'
+WHERE b.title IN ('The Shining', 'Misery');
+
+-- Agatha Christie
+INSERT INTO book_genres (book_id, genre_id)
+SELECT b.id, g.id
+FROM books b
+JOIN genres g ON g.name = 'Mystery'
+WHERE b.title = 'Murder on the Orient Express';
+
+-- Good Omens
+INSERT INTO book_genres (book_id, genre_id)
+SELECT b.id, g.id
+FROM books b
+JOIN genres g ON g.name IN ('Fantasy', 'Comedy')
+WHERE b.title = 'Good Omens';
+
+-- The Long Earth
+INSERT INTO book_genres (book_id, genre_id)
+SELECT b.id, g.id
+FROM books b
+JOIN genres g ON g.name = 'Science Fiction'
+WHERE b.title = 'The Long Earth';
+
+-- =========================
 -- BOOK_AUTHORS (Single Author)
 -- =========================
 
@@ -115,8 +195,71 @@ WHERE b.title = 'The Long Earth';
 -- POSTGRESQL BULK DATA
 -- =========================
 
+-- =========================
+-- BULK GENRES
+-- =========================
+
+INSERT INTO genres (name)
+SELECT 'Genre ' || gs
+FROM generate_series(1, 20) AS gs;
+
+
+-- =========================
+-- BULK AUTHORS
+-- =========================
+
 INSERT INTO authors (name, birth_year)
 SELECT
     'Generated Author ' || gs,
     1850 + (gs % 150)
-FROM generate_series(1, 1000) AS gs;
+FROM generate_series(1, 100) AS gs;
+
+
+-- =========================
+-- BULK BOOKS
+-- =========================
+
+INSERT INTO books (title, published_year, isbn, pages, language)
+SELECT
+    'Generated Book ' || gs,
+    1900 + (gs % 125),
+    'ISBN-' || gs,
+    100 + (gs % 900),
+    CASE
+        WHEN gs % 3 = 0 THEN 'English'
+        WHEN gs % 3 = 1 THEN 'Spanish'
+        ELSE 'German'
+    END
+FROM generate_series(1, 500) AS gs;
+
+-- =========================
+-- BULK BOOK_AUTHORS
+-- =========================
+
+INSERT INTO book_authors (book_id, author_id)
+SELECT
+    b.id,
+    a.id
+FROM books b
+JOIN LATERAL (
+    SELECT id
+    FROM authors
+    ORDER BY random()
+    LIMIT (1 + floor(random() * 3))::int
+) a ON true;
+
+-- =========================
+-- BULK BOOK_GENRES
+-- =========================
+
+INSERT INTO book_genres (book_id, genre_id)
+SELECT
+    b.id,
+    g.id
+FROM books b
+JOIN LATERAL (
+    SELECT id
+    FROM genres
+    ORDER BY random()
+    LIMIT (1 + floor(random() * 4))::int
+) g ON true;

@@ -1,5 +1,6 @@
 package io.github.eama.spring_boot_library_backend.service;
 
+import io.github.eama.spring_boot_library_backend.api.exception.author.AuthorNotFoundException;
 import io.github.eama.spring_boot_library_backend.mapper.AuthorMapper;
 import io.github.eama.spring_boot_library_backend.api.dto.request.author.CreateAuthorRequest;
 import io.github.eama.spring_boot_library_backend.api.dto.request.author.UpdateAuthorRequest;
@@ -13,8 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @Transactional
@@ -33,7 +32,7 @@ public class AuthorService {
 
     @Transactional(readOnly = true)
     public AuthorDto findById(Integer id) {
-        return authorMapper.toDto(authorRepository.findById(id).orElseThrow(() -> new RuntimeException("Author not found")));
+        return authorMapper.toDto(authorRepository.findById(id).orElseThrow(() -> new AuthorNotFoundException(id)));
     }
 
     public Page<AuthorDto> getAuthors(AuthorFilter filter, Pageable pageable) {

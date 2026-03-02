@@ -1,5 +1,6 @@
 package io.github.eama.spring_boot_library_backend.service;
 
+import io.github.eama.spring_boot_library_backend.api.exception.book.BookNotFoundException;
 import io.github.eama.spring_boot_library_backend.mapper.BookMapper;
 import io.github.eama.spring_boot_library_backend.api.dto.request.book.CreateBookRequest;
 import io.github.eama.spring_boot_library_backend.api.dto.request.book.UpdateBookRequest;
@@ -39,7 +40,7 @@ public class BookService {
 
     @Transactional(readOnly = true)
     public BookDto findById(Integer id) {
-        Book book = bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Book not Found"));
+        Book book = bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException(id));
 
 
         return bookMapper.toDto(book);

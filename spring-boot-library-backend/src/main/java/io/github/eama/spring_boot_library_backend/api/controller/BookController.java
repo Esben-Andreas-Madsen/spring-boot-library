@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
+
 @RestController
 @RequestMapping("/api/books")
 public class BookController {
@@ -61,9 +62,8 @@ public class BookController {
     // query books
 
     @GetMapping
-    public ResponseEntity<Page<BookDto>> getBooks(@Valid BookFilter filter,
-                                                  @PageableDefault(size = 20,
-                                                              sort = "title") Pageable pageable) {
+    public ResponseEntity<Page<BookDto>> getBooks(BookFilter filter,
+                                                  @PageableDefault(size = 20, sort = "title") Pageable pageable) {
         Page<BookDto> foundBooks = bookService.getBooks(filter, pageable);
         return ResponseEntity
                 .status(HttpStatus.OK)

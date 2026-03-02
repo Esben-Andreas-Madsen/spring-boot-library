@@ -33,6 +33,15 @@ public class Book {
     )
     private Set<Author> authors = new HashSet<>();
 
+    @ManyToMany
+    @JoinTable(
+            name = "book_genres",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id")
+    )
+
+    private Set<Genre> genres = new HashSet<>();
+
     // --- Constructors ---
     public Book() {}
 
@@ -93,6 +102,14 @@ public class Book {
         this.authors = authors;
     }
 
+    public Set<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(Set<Genre> genres) {
+        this.genres = genres;
+    }
+
     @Override
     public String toString() {
         return "Book{" +
@@ -103,6 +120,7 @@ public class Book {
                 ", pages=" + pages +
                 ", language='" + language + '\'' +
                 ", authors=" + authors +
+                ", genres=" + genres +
                 '}';
     }
 }

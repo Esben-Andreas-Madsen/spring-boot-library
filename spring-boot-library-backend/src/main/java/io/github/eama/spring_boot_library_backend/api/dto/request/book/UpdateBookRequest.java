@@ -25,4 +25,7 @@ public class UpdateBookRequest {
     private String language;
 
     private Set<@NotNull(message = "Author ID cannot be null") Integer> authorIds;
+
+    private Set<@NotNull(message = "Genre ID cannot be null") Integer> genreIds;
+
 }

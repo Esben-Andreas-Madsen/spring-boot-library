@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
+
 @RestController
 @RequestMapping("/api/authors")
 public class AuthorController {
@@ -61,9 +62,8 @@ public class AuthorController {
     // query authors
 
     @GetMapping
-    public ResponseEntity<Page<AuthorDto>> getAuthors(@Valid AuthorFilter filter,
-                                                      @PageableDefault(size = 20,
-                                                              sort = "name") Pageable pageable) {
+    public ResponseEntity<Page<AuthorDto>> getAuthors(AuthorFilter filter,
+                                                      @PageableDefault(size = 20, sort = "name") Pageable pageable) {
         Page<AuthorDto> foundAuthors = authorService.getAuthors(filter, pageable);
         return ResponseEntity
                 .status(HttpStatus.OK)

@@ -20,7 +20,8 @@ public class BookSpecification {
                 .and(pagesGreaterThan(filter.getPagesFrom()))
                 .and(pagesLessThan(filter.getPagesTo()))
                 .and(publishedYearEquals(filter.getPublishedYear()))
-                .and(hasAuthorId(filter.getAuthorId()));
+                .and(hasAuthorId(filter.getAuthorId()))
+                .and(hasGenreId(filter.getGenreId()));
     }
 
     public static Specification<Book> hasTitle(String title) {
@@ -119,6 +120,21 @@ public class BookSpecification {
             return cb.equal(
                     root.join("authors").get("id"),
                     authorId
+            );
+        };
+    }
+
+    public static Specification<Book> hasGenreId(Integer genreId) {
+        return (root, query, cb) -> {
+            if (genreId == null) {
+                return null;
+            }
+
+            query.distinct(true);
+
+            return cb.equal(
+                    root.join("genres").get("id"),
+                    genreId
             );
         };
     }

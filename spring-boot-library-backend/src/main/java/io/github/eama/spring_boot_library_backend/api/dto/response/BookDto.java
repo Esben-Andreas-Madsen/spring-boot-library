@@ -13,6 +13,8 @@ public class BookDto {
 
     private Set<Integer> authorIds;
 
+    private Set<Integer> genreIds;
+
     public Integer getId() {
         return id;
     }
@@ -67,5 +69,13 @@ public class BookDto {
 
     public void setAuthorIds(Set<Integer> authorIds) {
         this.authorIds = authorIds;
+    }
+
+    public Set<Integer> getGenreIds() {
+        return genreIds;
+    }
+
+    public void setGenreIds(Set<Integer> genreIds) {
+        this.genreIds = genreIds;
     }
 }
