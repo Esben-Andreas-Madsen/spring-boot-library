@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+
 @RestController
 @RequestMapping("/api/genres")
 public class GenreController {
@@ -36,8 +38,11 @@ public class GenreController {
     public ResponseEntity<GenreDto> createGenre(@Valid @RequestBody CreateGenreRequest request) {
         GenreDto created = genreService.create(request);
 
+        URI location = URI.create("/genres/" + created.getId());
+
         return ResponseEntity
                 .status(HttpStatus.CREATED)
+                .location(location)
                 .body(created);
     }
 

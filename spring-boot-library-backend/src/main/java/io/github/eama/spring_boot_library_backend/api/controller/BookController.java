@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
+import java.net.URI;
+
 
 @RestController
 @RequestMapping("/api/books")
@@ -37,8 +39,12 @@ public class BookController {
     @PostMapping
     public ResponseEntity<BookDto> createBook(@Valid @RequestBody CreateBookRequest request) {
         BookDto created = bookService.create(request);
+
+        URI location = URI.create("/books/" + created.getId());
+
         return ResponseEntity
                 .status(HttpStatus.CREATED)
+                .location(location)
                 .body(created);
     }
 

@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
+import java.net.URI;
+
 
 @RestController
 @RequestMapping("/api/authors")
@@ -38,8 +40,12 @@ public class AuthorController {
     @PostMapping
     public ResponseEntity<AuthorDto> createAuthor(@Valid @RequestBody CreateAuthorRequest request) {
         AuthorDto created = authorService.create(request);
+
+        URI location = URI.create("/authors/" + created.getId());
+
         return ResponseEntity
                 .status(HttpStatus.CREATED)
+                .location(location)
                 .body(created);
     }
 
