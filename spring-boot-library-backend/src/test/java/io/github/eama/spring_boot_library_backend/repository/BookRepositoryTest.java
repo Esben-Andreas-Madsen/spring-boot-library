@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DataJpaTest
@@ -18,10 +19,18 @@ class BookRepositoryTest extends PostgresTestContainerConfig {
     @Test
     void shouldSaveBook() {
         Book book = new Book();
-        book.setTitle("Test");
+        book.setTitle("Test title");
+        book.setLanguage("Test language");
+        book.setIsbn("Test isbn");
+        book.setPages(123);
 
         Book saved = bookRepository.save(book);
 
         assertNotNull(saved.getId());
+        assertEquals("Test title", saved.getTitle());
+        assertEquals("Test language", saved.getLanguage());
+        assertEquals("Test isbn", saved.getIsbn());
+        assertEquals(123, saved.getPages());
+        assertNotNull(saved.getLanguage());
     }
 }
