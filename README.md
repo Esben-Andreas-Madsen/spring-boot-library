@@ -23,9 +23,14 @@ Build and start all services:
 API URL: `http://localhost:8080`  
 Connects to the `spring_boot_library_db` database  
 Uses OAuth2 Authorization Code flow with Keycloak  
-Use credentials `user` and `password` to authorize OAuth2
 
 #### API Endpoints
+
+OpenAPI Swagger is enabled at ´http://localhost:8080/swagger-ui.html´  
+Auth first using ´spring-app´ as client id  
+Use credentials `user` and `password` to authorize OAuth2  
+There are endpoints for books, genres and authors in the following format:  
+
 #### Books (`/api/books`)
 | HTTP Method | Endpoint           | Description            | Request Body           | Response Type     |
 |------------|--------------------|------------------------|------------------------|------------------|
@@ -34,16 +39,6 @@ Use credentials `user` and `password` to authorize OAuth2
 | POST       | /api/books         | Create new book        | CreateBookRequest      | BookDto          |
 | PUT        | /api/books/{id}    | Update existing book   | UpdateBookRequest      | BookDto          |
 | DELETE     | /api/books/{id}    | Delete book by ID      | —                      | void (204/200)   |
-
-#### Authors (`/api/authors`)
-| HTTP Method | Endpoint            | Description              | Request Body            | Response Type       |
-|------------|---------------------|--------------------------|-------------------------|--------------------|
-| GET        | /api/authors        | Get all authors          | —                       | List<AuthorDto>    |
-| GET        | /api/authors/{id}   | Get author by ID         | —                       | AuthorDto          |
-| POST       | /api/authors        | Create new author        | CreateAuthorRequest     | AuthorDto          |
-| PUT        | /api/authors/{id}   | Update existing author   | UpdateAuthorRequest     | AuthorDto          |
-| DELETE     | /api/authors/{id}   | Delete author by ID      | —                       | void (204/200)     |
-
 
 ### Keycloak
 URL: `http://localhost:1852`  
