@@ -27,18 +27,9 @@ Uses OAuth2 Authorization Code flow with Keycloak
 #### API Endpoints
 
 OpenAPI Swagger is enabled at `http://localhost:8080/swagger-ui.html`  
-Auth first using ´spring-app´ as client id  
-Use credentials `user` and `password` to authorize OAuth2  
-There are endpoints for books, genres and authors in the following format:  
-
-#### Books (`/api/books`)
-| HTTP Method | Endpoint           | Description            | Request Body           | Response Type     |
-|------------|--------------------|------------------------|------------------------|------------------|
-| GET        | /api/books         | Get all books          | —                      | List<BookDto>    |
-| GET        | /api/books/{id}    | Get book by ID         | —                      | BookDto          |
-| POST       | /api/books         | Create new book        | CreateBookRequest      | BookDto          |
-| PUT        | /api/books/{id}    | Update existing book   | UpdateBookRequest      | BookDto          |
-| DELETE     | /api/books/{id}    | Delete book by ID      | —                      | void (204/200)   |
+Connect to the realm client first using ´spring-app´ as client id.  
+Use credentials `user` and `password` to authorize OAuth2.  
+There are endpoints for books, genres and authors.  
 
 ### Keycloak
 URL: `http://localhost:1852`  
