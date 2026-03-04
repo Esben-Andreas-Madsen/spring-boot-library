@@ -2,6 +2,7 @@ package io.github.eama.spring_boot_library_backend.api.exception;
 
 import io.github.eama.spring_boot_library_backend.api.exception.author.AuthorHasBooksException;
 import io.github.eama.spring_boot_library_backend.api.exception.book.DuplicateIsbnException;
+import io.github.eama.spring_boot_library_backend.api.exception.genre.DuplicateGenreException;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AuthorHasBooksException.class)
     public ResponseEntity<String> handleAuthorHasBooks(AuthorHasBooksException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(DuplicateGenreException.class)
+    public ResponseEntity<String> handleDuplicateGenre(DuplicateGenreException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

@@ -39,7 +39,6 @@ public class AuthorService {
 
         Specification<Author> spec = AuthorSpecification.build(filter);
 
-
         return authorRepository.findAll(spec, pageable).map(authorMapper::toDto);
     }
 
@@ -51,7 +50,9 @@ public class AuthorService {
         author.setName(request.getName());
         author.setBirthYear(request.getBirthYear());
 
-        return authorMapper.toDto(authorRepository.save(author));
+        authorRepository.save(author);
+
+        return authorMapper.toDto(author);
     }
 
     // ---------- UPDATE ----------
@@ -61,6 +62,8 @@ public class AuthorService {
 
         author.setName(request.getName());
         author.setBirthYear(request.getBirthYear());
+
+        authorRepository.save(author);
 
         return authorMapper.toDto(author);
     }

@@ -9,6 +9,7 @@ import io.github.eama.spring_boot_library_backend.mapper.GenreMapper;
 import io.github.eama.spring_boot_library_backend.repository.GenreRepository;
 import io.github.eama.spring_boot_library_backend.repository.specification.GenreFilter;
 import io.github.eama.spring_boot_library_backend.repository.specification.GenreSpecification;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -42,15 +43,24 @@ public class GenreService {
         Genre genre = new Genre();
         genre.setName(request.getName());
 
-        return genreMapper.toDto(genreRepository.save(genre));
+        genreRepository.save(genre);
+
+        return genreMapper.toDto(genre);
     }
 
     public GenreDto update(Integer id, UpdateGenreRequest request) {
+
+        // 1. Find existing entity
         Genre genre = genreMapper.toEntity(findById(id));
 
+        // 2. Update fields
         genre.setName(request.getName());
 
-        return genreMapper.toDto(genre);
+        // 3. Save updated entity
+        Genre updatedGenre = genreRepository.save(genre);
+
+        // 4. Convert to DTO and return
+        return genreMapper.toDto(updatedGenre);
     }
 
     public void delete(Integer id) {

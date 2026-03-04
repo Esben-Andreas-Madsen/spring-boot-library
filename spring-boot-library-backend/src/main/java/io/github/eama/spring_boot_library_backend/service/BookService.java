@@ -42,7 +42,6 @@ public class BookService {
     public BookDto findById(Integer id) {
         Book book = bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException(id));
 
-
         return bookMapper.toDto(book);
     }
 
@@ -51,7 +50,6 @@ public class BookService {
     public Page<BookDto> getBooks(BookFilter filter, Pageable pageable) {
 
         Specification<Book> spec = BookSpecification.build(filter);
-
 
         return bookRepository.findAll(spec, pageable).map(bookMapper::toDto);
     }
@@ -83,22 +81,24 @@ public class BookService {
     // ---------- UPDATE ----------
 
     public BookDto update(Integer id, UpdateBookRequest request) {
-        Book book = bookMapper.toEntity(findById(id));
+        Book updatedBook = bookMapper.toEntity(findById(id));
 
-        book.setTitle(request.getTitle());
-        book.setPublishedYear(request.getPublishedYear());
-        book.setIsbn(request.getIsbn());
-        book.setPages(request.getPages());
-        book.setLanguage(request.getLanguage());
+        updatedBook.setTitle(request.getTitle());
+        updatedBook.setPublishedYear(request.getPublishedYear());
+        updatedBook.setIsbn(request.getIsbn());
+        updatedBook.setPages(request.getPages());
+        updatedBook.setLanguage(request.getLanguage());
 
         if (request.getAuthorIds() != null) {
             Set<Author> authors = new HashSet<>(
                     authorRepository.findAllById(request.getAuthorIds())
             );
-            book.setAuthors(authors);
+            updatedBook.setAuthors(authors);
         }
 
-        return bookMapper.toDto(book);
+        bookRepository.save(updatedBook);
+
+        return bookMapper.toDto(updatedBook);
     }
 
     // ---------- DELETE ----------
