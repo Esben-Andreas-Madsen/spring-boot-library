@@ -27,4 +27,5 @@ jobs:
           cache: maven
 
       - name: Build and run tests
-        run: mvn clean verify
+        # runs with '-B' Batch mode
+        run: mvn -B clean verify
