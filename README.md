@@ -26,7 +26,7 @@ Uses OAuth2 Authorization Code flow with Keycloak
 
 #### API Endpoints
 
-OpenAPI Swagger is enabled at ´http://localhost:8080/swagger-ui.html´  
+OpenAPI Swagger is enabled at `http://localhost:8080/swagger-ui.html`  
 Auth first using ´spring-app´ as client id  
 Use credentials `user` and `password` to authorize OAuth2  
 There are endpoints for books, genres and authors in the following format:  
