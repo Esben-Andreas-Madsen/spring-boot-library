@@ -1,6 +1,6 @@
-package io.github.eama.spring_boot_library_backend;
+package io.github.eama.spring_boot_library_backend.util;
 
-import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -8,10 +8,11 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-@DataJpaTest
+
+@SpringBootTest
 @Testcontainers
 @ActiveProfiles("test")
-public abstract class PostgresTestContainerConfig {
+public abstract class AbstractServiceTest {
 
     @Container
     static PostgreSQLContainer<?> postgres =

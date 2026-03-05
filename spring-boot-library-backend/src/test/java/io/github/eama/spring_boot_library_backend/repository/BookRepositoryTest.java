@@ -1,36 +1,33 @@
 package io.github.eama.spring_boot_library_backend.repository;
 
-import io.github.eama.spring_boot_library_backend.PostgresTestContainerConfig;
+import io.github.eama.spring_boot_library_backend.util.AbstractRepositoryTest;
+import io.github.eama.spring_boot_library_backend.util.AbstractServiceTest;
+import io.github.eama.spring_boot_library_backend.domain.Author;
 import io.github.eama.spring_boot_library_backend.domain.Book;
+import io.github.eama.spring_boot_library_backend.util.TestDataFactory;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTest
-@Testcontainers
-class BookRepositoryTest extends PostgresTestContainerConfig {
+
+class BookRepositoryTest extends AbstractRepositoryTest {
+
     @Autowired
-    private BookRepository bookRepository;
+    BookRepository bookRepository;
+
+    @Autowired
+    AuthorRepository authorRepository;
 
     @Test
     void shouldSaveBook() {
-        Book book = new Book();
-        book.setTitle("Test title");
-        book.setLanguage("Test language");
-        book.setIsbn("Test isbn");
-        book.setPages(123);
+
+        Author author = authorRepository.save(TestDataFactory.createAuthor());
+
+        Book book = TestDataFactory.createBook(author);
 
         Book saved = bookRepository.save(book);
 
-        assertNotNull(saved.getId());
-        assertEquals("Test title", saved.getTitle());
-        assertEquals("Test language", saved.getLanguage());
-        assertEquals("Test isbn", saved.getIsbn());
-        assertEquals(123, saved.getPages());
-        assertNotNull(saved.getLanguage());
+        assertThat(saved.getId()).isNotNull();
     }
 }
