@@ -71,7 +71,8 @@ public class AuthorService {
     // ---------- DELETE ----------
 
     public void delete(Integer id) {
-        Author author = authorMapper.toEntity(findById(id));
+        Author author = authorRepository.findById(id)
+                        .orElseThrow(() -> new AuthorNotFoundException(id));
         authorRepository.delete(author);
     }
 }

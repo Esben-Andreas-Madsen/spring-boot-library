@@ -16,6 +16,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Service
 @Transactional
 public class GenreService {
@@ -64,7 +67,8 @@ public class GenreService {
     }
 
     public void delete(Integer id) {
-        Genre genre = genreMapper.toEntity(findById(id));
+        Genre genre = genreRepository.findById(id)
+                .orElseThrow(() -> new GenreNotFoundException(id));
         genreRepository.delete(genre);
     }
 
