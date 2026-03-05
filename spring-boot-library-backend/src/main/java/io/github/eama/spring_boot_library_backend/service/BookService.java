@@ -17,8 +17,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -81,7 +79,9 @@ public class BookService {
     // ---------- UPDATE ----------
 
     public BookDto update(Integer id, UpdateBookRequest request) {
-        Book updatedBook = bookMapper.toEntity(findById(id));
+
+        Book updatedBook = bookRepository.findById(id)
+                .orElseThrow(() -> new BookNotFoundException(id));
 
         updatedBook.setTitle(request.getTitle());
         updatedBook.setPublishedYear(request.getPublishedYear());
@@ -90,21 +90,24 @@ public class BookService {
         updatedBook.setLanguage(request.getLanguage());
 
         if (request.getAuthorIds() != null) {
-            Set<Author> authors = new HashSet<>(
-                    authorRepository.findAllById(request.getAuthorIds())
-            );
+            Set<Author> authors =
+                    new HashSet<>(authorRepository.findAllById(request.getAuthorIds()));
             updatedBook.setAuthors(authors);
         }
 
         bookRepository.save(updatedBook);
 
+        // No need to call save explicitly — transactional dirty checking handles it
         return bookMapper.toDto(updatedBook);
     }
 
     // ---------- DELETE ----------
 
     public void delete(Integer id) {
-        Book book = bookMapper.toEntity(findById(id));
+
+        Book book = bookRepository.findById(id)
+                .orElseThrow(() -> new BookNotFoundException(id));
+
         bookRepository.delete(book);
     }
 }

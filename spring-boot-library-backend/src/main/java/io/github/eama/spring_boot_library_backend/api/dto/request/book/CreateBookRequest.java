@@ -32,5 +32,8 @@ public class CreateBookRequest {
     // might change to depend on frontend and admin logic
     @NotEmpty(message = "At least one author must be provided")
     private Set<@NotNull(message = "Author ID cannot be null") Integer> authorIds;
+
+    @NotEmpty(message = "At least one genre must be provided")
+    private Set<@NotNull(message = "Genre ID cannot be null") Integer> genreIds;
 }
 
