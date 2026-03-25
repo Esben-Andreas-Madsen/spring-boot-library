@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/templates/layout.xhtml">
+
+    <ui:define name="title">
+        Library - Book List
+    </ui:define>
+
+    <ui:define name="content">
+
+        <h2>Book List</h2>
+
+        <p:dataTable value="#{bookBean.books}" var="book">
+
+            <p:column headerText="ID">
+                #{book.id}
+            </p:column>
+
+            <p:column headerText="Title">
+                #{book.title}
+            </p:column>
+
+            <p:column headerText="Published">
+                #{book.publishedYear}
+            </p:column>
+
+            <p:column headerText="ISBN">
+                #{book.isbn}
+            </p:column>
+
+            <p:column headerText="Pages">
+                #{book.pages}
+            </p:column>
+
+            <p:column headerText="Language">
+                #{book.language}
+            </p:column>
+
+            <p:column headerText="Author IDs">
+                #{book.authorIds}
+            </p:column>
+
+            <p:column headerText="Genre IDs">
+                #{book.genreIds}
+            </p:column>
+
+        </p:dataTable>
+
+    </ui:define>
+
+</ui:composition>
+</html>

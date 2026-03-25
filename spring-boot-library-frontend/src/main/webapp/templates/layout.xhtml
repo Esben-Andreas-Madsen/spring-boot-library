@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="jakarta.faces.facelets">
+
+<h:head>
+    <title>Library System</title>
+</h:head>
+
+<h:body>
+
+    <p:menubar>
+        <p:menuitem value="Home" outcome="/index"/>
+
+        <p:menuitem value="Books" outcome="/book/list"/>
+    </p:menubar>
+
+    <div style="margin:20px">
+        <ui:insert name="content"/>
+    </div>
+
+</h:body>
+
+</html>

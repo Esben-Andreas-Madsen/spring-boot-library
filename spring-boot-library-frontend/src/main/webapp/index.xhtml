@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/templates/layout.xhtml">
+
+    <ui:define name="title">
+        Library
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <p:commandButton value="Login with Keycloak"
+                             action="#{loginBean.login}" />
+
+            <p:commandButton value="Logout"
+                             action="#{loginBean.logout}" />
+        </h:form>
+    </ui:define>
+
+</ui:composition>
+</html>
