@@ -1,6 +1,8 @@
 package view.book;
 
+import dto.AuthorDto;
 import dto.BookDto;
+import dto.GenreDto;
 import dto.PageDto;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
@@ -9,12 +11,17 @@ import jakarta.inject.Named;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortMeta;
+import service.AuthorService;
 import service.BookService;
+import service.GenreService;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Named
 @ViewScoped
@@ -26,9 +33,17 @@ public class BookListBean implements Serializable {
     @Inject
     transient BookService bookService;
 
+    @Inject
+    AuthorService authorService;
+
+    @Inject
+    GenreService genreService;
+
+
     private transient LazyDataModel<BookDto> books;
 
-    private PageDto<BookDto> lastPage;
+    private Map<Integer, AuthorDto> authorCache = new HashMap<>();
+    private Map<Integer, GenreDto> genreCache = new HashMap<>();
 
     @PostConstruct
     public void init() {
@@ -58,6 +73,39 @@ public class BookListBean implements Serializable {
                 return String.valueOf(book.getId());
             }
         };
+    }
+
+    public AuthorDto getAuthorById(Integer authorId) {
+        if (authorId == null) return null;
+
+        // cache lookup
+        if (!authorCache.containsKey(authorId)) {
+            authorCache.put(authorId, authorService.getAuthor(authorId));
+        }
+
+        return authorCache.get(authorId);
+    }
+
+    public List<AuthorDto> getAuthorsByIds(Set<Integer> ids) {
+        return ids.stream()
+                .map(this::getAuthorById)
+                .collect(Collectors.toList());
+    }
+
+    public GenreDto getGenreById(Integer id) {
+        if (id == null) return null;
+
+        if (!genreCache.containsKey(id)) {
+            genreCache.put(id, genreService.getGenre(id));
+        }
+
+        return genreCache.get(id);
+    }
+
+    public List<GenreDto> getGenresByIds(Set<Integer> ids) {
+        return ids.stream()
+                .map(this::getGenreById)
+                .collect(Collectors.toList());
     }
 
     public LazyDataModel<BookDto> getBooks() {

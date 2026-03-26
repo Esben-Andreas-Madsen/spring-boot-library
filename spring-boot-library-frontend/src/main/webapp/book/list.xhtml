@@ -12,8 +12,6 @@
 
     <ui:define name="content">
 
-        <h2>Book List</h2>
-
         <p:dataTable value="#{bookListBean.books}" var="book"
                      paginator="true"
                      rows="10"
@@ -30,6 +28,22 @@
                 #{book.title}
             </p:column>
 
+            <p:column headerText="Authors">
+                <ui:repeat value="#{bookListBean.getAuthorsByIds(book.authorIds)}" var="author">
+                    <p>#{author.name}</p>
+                </ui:repeat>
+            </p:column>
+
+            <p:column headerText="Genres">
+                <ui:repeat value="#{bookListBean.getGenresByIds(book.genreIds)}" var="genre">
+                    <p>#{genre.name}</p>
+                </ui:repeat>
+            </p:column>
+
+            <p:column headerText="Language">
+                #{book.language}
+            </p:column>
+
             <p:column headerText="Published">
                 #{book.publishedYear}
             </p:column>
@@ -42,10 +56,11 @@
                 #{book.pages}
             </p:column>
 
+            <!--
             <p:column headerText="DEBUG">
                 #{book}
             </p:column>
-
+            -->
         </p:dataTable>
 
     </ui:define>
