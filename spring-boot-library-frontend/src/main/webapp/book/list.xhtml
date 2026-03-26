@@ -14,7 +14,13 @@
 
         <h2>Book List</h2>
 
-        <p:dataTable value="#{bookBean.books}" var="book">
+        <p:dataTable value="#{bookListBean.books}" var="book"
+                     paginator="true"
+                     rows="10"
+                     lazy="true"
+                     rowKey="#{book.id}"
+                     emptyMessage="No books found"
+        >
 
             <p:column headerText="ID">
                 #{book.id}
@@ -36,16 +42,8 @@
                 #{book.pages}
             </p:column>
 
-            <p:column headerText="Language">
-                #{book.language}
-            </p:column>
-
-            <p:column headerText="Author IDs">
-                #{book.authorIds}
-            </p:column>
-
-            <p:column headerText="Genre IDs">
-                #{book.genreIds}
+            <p:column headerText="DEBUG">
+                #{book}
             </p:column>
 
         </p:dataTable>

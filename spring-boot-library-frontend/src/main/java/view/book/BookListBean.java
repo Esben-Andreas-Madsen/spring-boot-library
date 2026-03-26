@@ -1,34 +1,67 @@
 package view.book;
 
 import dto.BookDto;
+import dto.PageDto;
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import org.primefaces.model.FilterMeta;
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortMeta;
 import service.BookService;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 @Named
-@RequestScoped
-public class BookListBean {
+@ViewScoped
+public class BookListBean implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     @Inject
-    BookService bookService;
+    transient BookService bookService;
 
-    private List<BookDto> books;
+    private transient LazyDataModel<BookDto> books;
 
-    public List<BookDto> getBooks() {
-        return books;
-    }
+    private PageDto<BookDto> lastPage;
 
     @PostConstruct
     public void init() {
-        try {
-            books = bookService.getBooks();
-        } catch (Exception e) {
-            e.printStackTrace();
-            books = List.of();
-        }
+        books = new LazyDataModel<>() {
+            @Override
+            public List<BookDto> load(int first, int pageSize,
+                                      Map<String, SortMeta> sortBy,
+                                      Map<String, FilterMeta> filterBy) {
+
+
+                int page = first / pageSize;
+
+                PageDto<BookDto> result = bookService.getBooks(page, pageSize);
+
+                setRowCount((int) result.getTotalElements());
+
+                return result.getContent();
+            }
+
+            @Override
+            public int count(Map<String, FilterMeta> filterBy) {
+                return (int) bookService.getBooks(0, 1).getTotalElements();
+            }
+
+            @Override
+            public String getRowKey(BookDto book) {
+                return String.valueOf(book.getId());
+            }
+        };
+    }
+
+    public LazyDataModel<BookDto> getBooks() {
+        return books;
     }
 }
+

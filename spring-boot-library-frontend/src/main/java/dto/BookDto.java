@@ -78,4 +78,18 @@ public class BookDto {
     public void setGenreIds(Set<Integer> genreIds) {
         this.genreIds = genreIds;
     }
+
+    @Override
+    public String toString() {
+        return "BookDto{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", publishedYear=" + publishedYear +
+                ", isbn='" + isbn + '\'' +
+                ", pages=" + pages +
+                ", language='" + language + '\'' +
+                ", authorIds=" + authorIds +
+                ", genreIds=" + genreIds +
+                '}';
+    }
 }

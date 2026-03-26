@@ -17,8 +17,8 @@ public class BookService {
     @RestClient
     BookApiClient bookApiClient;
 
-    public List<BookDto> getBooks() {
-        PageDto<BookDto> page = bookApiClient.getBooks();
-        return page.getContent();
+    public PageDto<BookDto> getBooks(int page, int size) {
+
+        return bookApiClient.getBooks(page, size);
     }
 }
