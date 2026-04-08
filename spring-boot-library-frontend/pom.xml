@@ -21,12 +21,13 @@
             <groupId>org.glassfish</groupId>
             <artifactId>jakarta.faces</artifactId>
             <version>4.0.4</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
-            <version>13.0.0</version>
+            <version>15.0.0</version>
             <classifier>jakarta</classifier>
         </dependency>
 
@@ -55,6 +56,12 @@
             <artifactId>microprofile-rest-client-api</artifactId>
             <version>3.0</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.primefaces.themes</groupId>
+            <artifactId>black-tie</artifactId>
+            <version>1.1.0</version>
         </dependency>
     </dependencies>
 

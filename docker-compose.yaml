@@ -110,18 +110,13 @@ services:
     #--------------- FRONTEND ---------------#
 
   wildfly:
-    image: quay.io/wildfly/wildfly:34.0.1.Final-jdk17
+    image: quay.io/wildfly/wildfly:39.0.1.Final-2-jdk17
     container_name: spring-boot-library-frontend
-    # environment:
-    #   KEYCLOAK_REALM: library
-    #   KEYCLOAK_CLIENT: spring-app
-    #   KEYCLOAK_URL: http://keycloak:1852
     ports:
       - "8081:8080"
       - "9990:9990"
     volumes:
       - ./spring-boot-library-frontend/target/spring-boot-library-frontend-1.0-SNAPSHOT.war:/opt/jboss/wildfly/standalone/deployments/spring-boot-library-frontend.war
-      #- ./wildfly/oidc.json:/opt/jboss/wildfly/standalone/configuration/keycloak.json
     networks:
       - local_network
 

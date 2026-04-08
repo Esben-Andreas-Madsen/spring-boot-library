@@ -1,8 +1,10 @@
+
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="jakarta.faces.html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://www.w3.org/1999/xhtml">
 
 <ui:composition template="/templates/layout.xhtml">
 
@@ -12,47 +14,60 @@
 
     <ui:define name="content">
 
-        <p:dataTable value="#{bookListBean.books}" var="book"
+        <!-- h-form enables filtering, because of AJAX postbacks -->
+        <h:form id="bookForm">
+
+        <p:dataTable value="#{bookListBean.books}"
+                     var="book"
                      paginator="true"
                      rows="10"
                      lazy="true"
                      rowKey="#{book.id}"
                      emptyMessage="No books found"
-        >
+                     filterDisplay="row">
+
 
             <p:column headerText="ID">
                 #{book.id}
             </p:column>
 
-            <p:column headerText="Title">
+            <p:column headerText="Title"
+                      filterBy="#{book.title}"
+                      filterMatchMode="contains">
                 #{book.title}
             </p:column>
 
             <p:column headerText="Authors">
                 <ui:repeat value="#{bookListBean.getAuthorsByIds(book.authorIds)}" var="author">
-                    <p>#{author.name}</p>
+                    #{author.name}
                 </ui:repeat>
             </p:column>
 
             <p:column headerText="Genres">
                 <ui:repeat value="#{bookListBean.getGenresByIds(book.genreIds)}" var="genre">
-                    <p>#{genre.name}</p>
+                    #{genre.name}
                 </ui:repeat>
             </p:column>
 
-            <p:column headerText="Language">
+            <p:column headerText="Language"
+                      filterBy="#{book.language}"
+                      filterMatchMode="contains">
                 #{book.language}
             </p:column>
 
-            <p:column headerText="Published">
+            <p:column headerText="Published"
+                      filterMatchMode="contains"
+                      filterBy="#{book.publishedYear}">
                 #{book.publishedYear}
             </p:column>
 
-            <p:column headerText="ISBN">
+            <p:column headerText="ISBN"
+                      filterBy="#{book.isbn}">
                 #{book.isbn}
             </p:column>
 
-            <p:column headerText="Pages">
+            <p:column headerText="Pages"
+                      filterBy="#{book.pages}">
                 #{book.pages}
             </p:column>
 
@@ -63,7 +78,11 @@
             -->
         </p:dataTable>
 
+        </h:form>
+
     </ui:define>
 
 </ui:composition>
 </html>
+
+-->

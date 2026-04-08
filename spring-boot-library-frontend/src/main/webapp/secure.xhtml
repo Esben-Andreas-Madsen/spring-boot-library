@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:f="jakarta.faces.core">
+
+<ui:composition template="/templates/layout.xhtml">
+
+    <ui:define name="content">
+        <h:body>
+            <div class="card">
+            <h:form>
+                    <h:outputText value="Welcome #{userBean.username}! You are logged in." rendered="#{userBean.loggedIn}" />
+                    <h:outputText value="You are not logged in." rendered="#{not userBean.loggedIn}" />
+            </h:form>
+            </div>
+        </h:body>
+    </ui:define>
+
+</ui:composition>
+</html>

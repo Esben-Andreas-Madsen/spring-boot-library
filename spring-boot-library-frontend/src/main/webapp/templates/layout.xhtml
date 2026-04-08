@@ -2,24 +2,54 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="jakarta.faces.html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="jakarta.faces.facelets">
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:f="jakarta.faces.core">
 
 <h:head>
-    <title>Library System</title>
+    <title>Library App</title>
 </h:head>
 
 <h:body>
+    <div class="card">
+        <h:form>
+            <p:menubar id="menuBar">
 
-    <p:menubar>
-        <p:menuitem value="Home" outcome="/index"/>
+                <!-- LEFT SIDE -->
+                <f:facet name="start">
+                    <h:panelGroup layout="inline">
+                        <i class="pi pi-book" style="font-size:1.6em; vertical-align:middle; color:#333;"/>
+                    </h:panelGroup>
+                </f:facet>
 
-        <p:menuitem value="Books" outcome="/book/list"/>
-    </p:menubar>
+                <!-- MENU -->
+                <p:menuitem value="Home" outcome="/index.xhtml?faces-redirect=true"/>
+                <p:menuitem value="Secure Page" outcome="/secure.xhtml?faces-redirect=true"/>
 
-    <div style="margin:20px">
-        <ui:insert name="content"/>
+                <p:divider layout="vertical"/>
+
+                <!-- RIGHT SIDE -->
+                <f:facet name="end">
+                    <h:panelGroup>
+                        <p:commandButton value="Login"
+                                         rendered="#{not userBean.loggedIn}"
+                                         icon="pi pi-sign-in"
+                                         ajax="false"
+                                         action="/secure.xhtml?faces-redirect=true" />
+
+                        <p:commandButton value="Logout"
+                                         rendered="#{userBean.loggedIn}"
+                                         icon="pi pi-sign-out"
+                                         styleClass="ml-2"
+                                         ajax="false"
+                                         action="#{authBean.logout}" />
+                    </h:panelGroup>
+                </f:facet>
+            </p:menubar>
+        </h:form>
     </div>
 
-</h:body>
+    <ui:insert name="header"/>
 
+    <ui:insert name="content"/>
+</h:body>
 </html>
