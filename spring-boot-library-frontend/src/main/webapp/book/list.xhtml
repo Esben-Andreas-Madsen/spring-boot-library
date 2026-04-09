@@ -14,7 +14,6 @@
 
     <ui:define name="content">
 
-        <!-- h-form enables filtering, because of AJAX postbacks -->
         <h:form id="bookForm">
 
         <p:dataTable value="#{bookListBean.books}"
@@ -37,6 +36,7 @@
                 #{book.title}
             </p:column>
 
+            <!--
             <p:column headerText="Authors">
                 <ui:repeat value="#{bookListBean.getAuthorsByIds(book.authorIds)}" var="author">
                     #{author.name}
@@ -48,6 +48,7 @@
                     #{genre.name}
                 </ui:repeat>
             </p:column>
+            -->
 
             <p:column headerText="Language"
                       filterBy="#{book.language}"
@@ -71,11 +72,6 @@
                 #{book.pages}
             </p:column>
 
-            <!--
-            <p:column headerText="DEBUG">
-                #{book}
-            </p:column>
-            -->
         </p:dataTable>
 
         </h:form>
@@ -85,4 +81,3 @@
 </ui:composition>
 </html>
 
--->
