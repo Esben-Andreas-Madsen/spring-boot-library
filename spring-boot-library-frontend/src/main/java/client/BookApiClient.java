@@ -20,7 +20,13 @@ public interface BookApiClient {
             @QueryParam("page") int page,
             @QueryParam("size") int size,
             @QueryParam("title") String title,
-            @QueryParam("language") String language
+            @QueryParam("language") String language,
+            // naming difference between here and backend api
+            @QueryParam("publishedYearFrom") String yearFrom,
+            @QueryParam("publishedYearTo") String yearTo,
+            @QueryParam("isbn") String isbn,
+            @QueryParam("pagesFrom") String pagesFrom,
+            @QueryParam("pagesTo") String pagesTo
     );
 
     @GET

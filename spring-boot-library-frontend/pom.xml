@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.github.eama</groupId>
-    <artifactId>spring-boot-library-frontend</artifactId>
+    <artifactId>jakarta-primefaces-library-frontend</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -32,22 +32,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.omnifaces</groupId>
-            <artifactId>omnifaces</artifactId>
-            <version>4.3</version>
-        </dependency>
-
-        <dependency>
             <groupId>jakarta.platform</groupId>
             <artifactId>jakarta.jakartaee-api</artifactId>
             <version>10.0.0</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-client</artifactId>
-            <version>6.2.4.Final</version>
             <scope>provided</scope>
         </dependency>
 
@@ -71,11 +58,7 @@
             <artifactId>black-tie</artifactId>
             <version>1.1.0</version>
         </dependency>
-        <dependency>
-            <groupId>org.keycloak</groupId>
-            <artifactId>keycloak-core</artifactId>
-            <version>22.0.3</version>
-        </dependency>
+
     </dependencies>
 
     <build>

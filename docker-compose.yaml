@@ -112,7 +112,6 @@ services:
   wildfly:
     image: quay.io/wildfly/wildfly:39.0.1.Final-2-jdk17
     container_name: spring-boot-library-frontend
-    command: /opt/jboss/wildfly/bin/standalone.sh -c standalone-full.xml -b 0.0.0.0
     ports:
       - "8081:8080"
       - "9990:9990"

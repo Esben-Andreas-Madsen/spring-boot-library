@@ -1,10 +1,9 @@
-
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="jakarta.faces.html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://www.w3.org/1999/xhtml">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="jakarta.faces.core">
 
 <ui:composition template="/templates/layout.xhtml">
 
@@ -17,6 +16,7 @@
         <h:form id="bookForm">
 
         <p:dataTable value="#{bookListBean.books}"
+                     widgetVar="booksTable"
                      var="book"
                      paginator="true"
                      rows="10"
@@ -25,12 +25,14 @@
                      emptyMessage="No books found"
                      filterDisplay="row">
 
-
+            <!--
             <p:column headerText="ID">
                 #{book.id}
             </p:column>
+            -->
 
             <p:column headerText="Title"
+                      field="title"
                       filterBy="#{book.title}"
                       filterMatchMode="contains">
                 #{book.title}
@@ -51,25 +53,62 @@
             -->
 
             <p:column headerText="Language"
+                      field="language"
                       filterBy="#{book.language}"
                       filterMatchMode="contains">
                 #{book.language}
             </p:column>
 
             <p:column headerText="Published"
-                      filterMatchMode="contains"
-                      filterBy="#{book.publishedYear}">
+                      field="publishedYear">
+
                 #{book.publishedYear}
+
+                <f:facet name="filter">
+                    <p:panelGrid columns="2" style="width:50%">
+                        <p:inputNumber value="#{bookListBean.yearFrom}" placeholder="From">
+                            <p:ajax event="keyup"
+                                    oncomplete="PF('booksTable').filter()"
+                                    delay="500"/>
+                        </p:inputNumber>
+
+                        <p:inputNumber value="#{bookListBean.yearTo}" placeholder="To">
+                            <p:ajax event="keyup"
+                                    oncomplete="PF('booksTable').filter()"
+                                    delay="500"/>
+                        </p:inputNumber>
+                    </p:panelGrid>
+                </f:facet>
+
             </p:column>
 
             <p:column headerText="ISBN"
+                      field="isbn"
+                      filterMatchMode="equals"
                       filterBy="#{book.isbn}">
                 #{book.isbn}
             </p:column>
 
-            <p:column headerText="Pages"
-                      filterBy="#{book.pages}">
+            <p:column headerText="Pages" field="pages">
+
                 #{book.pages}
+
+                <f:facet name="filter">
+                    <p:panelGrid columns="2" style="width:50%">
+                        <p:inputNumber value="#{bookListBean.pagesFrom}" placeholder="From">
+                            <p:ajax event="keyup"
+                                    oncomplete="PF('booksTable').filter()"
+                                    delay="500"/>
+                        </p:inputNumber>
+
+                        <p:inputNumber value="#{bookListBean.pagesTo}" placeholder="To">
+                            <p:ajax event="keyup"
+                                    oncomplete="PF('booksTable').filter()"
+                                    delay="500"/>
+                        </p:inputNumber>
+                    </p:panelGrid>
+                </f:facet>
+
             </p:column>
 
         </p:dataTable>
