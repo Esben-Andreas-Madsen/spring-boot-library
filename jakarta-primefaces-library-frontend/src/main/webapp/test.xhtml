@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="primefaces"
+      xmlns:f="jakarta.faces.core">
+
+<h:head>
+    <title>Test</title>
+</h:head>
+
+<h:body>
+
+    <h:form>
+        <p:menubar>
+
+            <f:facet name="start">
+                <h:outputText value="LEFT SIDE"/>
+            </f:facet>
+
+            <f:facet name="end">
+                <h:outputText value="RIGHT SIDE"/>
+            </f:facet>
+
+            <p:menuitem value="Home" outcome="/index.xhtml"/>
+
+        </p:menubar>
+    </h:form>
+
+</h:body>
+</html>

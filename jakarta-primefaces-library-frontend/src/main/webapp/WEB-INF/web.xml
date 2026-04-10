@@ -1,0 +1,25 @@
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         version="6.0">
+
+<security-constraint>
+
+    <web-resource-collection>
+        <web-resource-name>secured</web-resource-name>
+        <url-pattern>/secure.xhtml</url-pattern>
+    </web-resource-collection>
+
+    <auth-constraint>
+        <role-name>user</role-name>
+    </auth-constraint>
+
+</security-constraint>
+
+<login-config>
+    <auth-method>OIDC</auth-method>
+</login-config>
+
+<security-role>
+    <role-name>user</role-name>
+</security-role>
+
+</web-app>

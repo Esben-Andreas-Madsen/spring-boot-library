@@ -1,6 +1,7 @@
 package io.github.eama.spring_boot_library_backend.service;
 
 import io.github.eama.spring_boot_library_backend.api.exception.book.BookNotFoundException;
+import io.github.eama.spring_boot_library_backend.domain.Genre;
 import io.github.eama.spring_boot_library_backend.mapper.BookMapper;
 import io.github.eama.spring_boot_library_backend.api.dto.request.book.CreateBookRequest;
 import io.github.eama.spring_boot_library_backend.api.dto.request.book.UpdateBookRequest;
@@ -9,6 +10,7 @@ import io.github.eama.spring_boot_library_backend.domain.Book;
 import io.github.eama.spring_boot_library_backend.api.dto.response.BookDto;
 import io.github.eama.spring_boot_library_backend.repository.AuthorRepository;
 import io.github.eama.spring_boot_library_backend.repository.BookRepository;
+import io.github.eama.spring_boot_library_backend.repository.GenreRepository;
 import io.github.eama.spring_boot_library_backend.repository.specification.BookFilter;
 import io.github.eama.spring_boot_library_backend.repository.specification.BookSpecification;
 import org.springframework.data.domain.Page;
@@ -26,11 +28,13 @@ public class BookService {
 
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
+    private final GenreRepository genreRepository;
     private final BookMapper bookMapper;
 
-    public BookService(BookRepository bookRepository, AuthorRepository authorRepository, BookMapper bookMapper) {
+    public BookService(BookRepository bookRepository, AuthorRepository authorRepository, GenreRepository genreRepository, BookMapper bookMapper) {
         this.bookRepository = bookRepository;
         this.authorRepository = authorRepository;
+        this.genreRepository = genreRepository;
         this.bookMapper = bookMapper;
     }
 
@@ -95,9 +99,14 @@ public class BookService {
             updatedBook.setAuthors(authors);
         }
 
+        if (request.getGenreIds() != null) {
+            Set<Genre> genres =
+                    new HashSet<>(genreRepository.findAllById(request.getGenreIds()));
+            updatedBook.setGenres(genres);
+        }
+
         bookRepository.save(updatedBook);
 
-        // No need to call save explicitly — transactional dirty checking handles it
         return bookMapper.toDto(updatedBook);
     }
 

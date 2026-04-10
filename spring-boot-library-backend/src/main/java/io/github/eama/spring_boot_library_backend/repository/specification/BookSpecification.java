@@ -25,16 +25,7 @@ public class BookSpecification {
     }
 
     public static Specification<Book> hasTitle(String title) {
-        return (root, query, cb) -> {
-            if (title == null || title.isBlank()) {
-                return null;
-            }
-
-            return cb.like(
-                    cb.lower(root.get("title")),
-                    "%" + title.toLowerCase() + "%"
-            );
-        };
+        return containsIgnoreCase("title", title);
     }
 
     public static Specification<Book> publishedYearEquals(Integer year) {
@@ -67,26 +58,11 @@ public class BookSpecification {
     }
 
     public static Specification<Book> hasIsbn(String isbn) {
-        return (root, query, cb) -> {
-            if (isbn == null || isbn.isBlank()) {
-                return null;
-            }
-
-            return cb.equal(root.get("isbn"), isbn);
-        };
+        return containsIgnoreCase("isbn", isbn);
     }
 
     public static Specification<Book> hasLanguage(String language) {
-        return (root, query, cb) -> {
-            if (language == null || language.isBlank()) {
-                return null;
-            }
-
-            return cb.equal(
-                    cb.lower(root.get("language")),
-                    language.toLowerCase()
-            );
-        };
+        return containsIgnoreCase("language", language);
     }
 
     public static Specification<Book> pagesGreaterThan(Integer pages) {
@@ -135,6 +111,21 @@ public class BookSpecification {
             return cb.equal(
                     root.join("genres").get("id"),
                     genreId
+            );
+        };
+    }
+
+    // helper method
+    private static Specification<Book> containsIgnoreCase(String field, String value) {
+
+        return (root, query, cb) -> {
+
+            if (value == null || value.isBlank())
+                return null;
+
+            return cb.like(
+                    cb.lower(root.get(field)),
+                    "%" + value.toLowerCase() + "%"
             );
         };
     }

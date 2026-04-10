@@ -1,18 +1,6 @@
 services:
-  postgres:
-    image: postgres:17
-    container_name: spring-boot-library-db
-    environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin
-      POSTGRES_DB: spring_boot_library_db
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    networks:
-      - local_network
 
+#--------------- BACKEND ---------------#
   app:
     build:
       context: ./spring-boot-library-backend/
@@ -43,6 +31,21 @@ services:
         condition: service_started
     networks:
       - local_network
+
+  postgres:
+    image: postgres:17
+    container_name: spring-boot-library-db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: spring_boot_library_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - local_network
+
 
     #--------------- KEYCLOAK ---------------#
 
@@ -91,7 +94,6 @@ services:
       - local_network
 
 
-
   keycloak-db:
     image: postgres:17
     container_name: keycloak-db
@@ -101,6 +103,20 @@ services:
       POSTGRES_DB: keycloak_db
     volumes:
       - keycloak_postgres_data:/var/lib/postgresql/data
+    networks:
+      - local_network
+
+
+    #--------------- FRONTEND ---------------#
+
+  wildfly:
+    image: quay.io/wildfly/wildfly:39.0.1.Final-2-jdk17
+    container_name: spring-boot-library-frontend
+    ports:
+      - "8081:8080"
+      - "9990:9990"
+    volumes:
+      - ./jakarta-primefaces-library-frontend/target/jakarta-primefaces-library-frontend-1.0-SNAPSHOT.war:/opt/jboss/wildfly/standalone/deployments/jakarta-primefaces-library-frontend.war
     networks:
       - local_network
 
