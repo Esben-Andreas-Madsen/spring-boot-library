@@ -116,7 +116,7 @@ services:
       - "8081:8080"
       - "9990:9990"
     volumes:
-      - ./jakarta-primefaces-library-frontend/target/jakarta-primefaces-library-frontend-1.0-SNAPSHOT.war:/opt/jboss/wildfly/standalone/deployments/jakarta-primefaces-library-frontend.war
+      - ./jakarta-primefaces-library-frontend/target/jakarta-primefaces-library-frontend.war:/opt/jboss/wildfly/standalone/deployments/jakarta-primefaces-library-frontend.war
     networks:
       - local_network
 
