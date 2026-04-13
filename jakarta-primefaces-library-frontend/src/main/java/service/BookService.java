@@ -3,11 +3,12 @@ package service;
 import client.BookApiClient;
 import dto.BookDto;
 import dto.PageDto;
+import filter.BookFilter;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-import java.util.Map;
+import java.util.List;
 
 @ApplicationScoped
 public class BookService {
@@ -16,24 +17,12 @@ public class BookService {
     @RestClient
     BookApiClient api;
 
-
-    public PageDto<BookDto> getBooks(int page, int size, Map<String, String> filters) {
-
-        return api.getBooks(
-                page,
-                size,
-                filters.get("title"),
-                filters.get("language"),
-                filters.get("yearFrom"),
-                filters.get("yearTo"),
-                filters.get("isbn"),
-                filters.get("pagesFrom"),
-                filters.get("pagesTo")
-        );
+    public PageDto<BookDto> getBooks(int page, int size, BookFilter filter, List<String> sort) {
+        return api.getBooks(page, size, filter, sort);
     }
 
     public PageDto<BookDto> getBooks(int page, int size) {
-        return api.getBooks(page, size, null, null, null, null, null, null, null);
+        return api.getBooks(page, size, new BookFilter(), null);
     }
 
     public BookDto getBook(int id) {

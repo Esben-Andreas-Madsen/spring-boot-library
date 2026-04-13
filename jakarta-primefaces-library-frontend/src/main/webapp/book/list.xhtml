@@ -17,12 +17,14 @@
 
         <p:dataTable value="#{bookListBean.books}"
                      widgetVar="booksTable"
+                     sortMode="multiple"
                      var="book"
                      paginator="true"
                      rows="10"
                      lazy="true"
                      rowKey="#{book.id}"
                      emptyMessage="No books found"
+                     allowUnsorting="true"
                      filterDisplay="row">
 
             <!--
@@ -33,6 +35,7 @@
 
             <p:column headerText="Title"
                       field="title"
+                      sortBy="#{book.title}"
                       filterBy="#{book.title}"
                       filterMatchMode="contains">
                 #{book.title}
@@ -60,20 +63,21 @@
             </p:column>
 
             <p:column headerText="Published"
+                      filterBy="#{book.publishedYear}"
                       field="publishedYear">
 
                 #{book.publishedYear}
 
                 <f:facet name="filter">
-                    <p:panelGrid columns="2" style="width:50%">
-                        <p:inputNumber value="#{bookListBean.yearFrom}" placeholder="From">
-                            <p:ajax event="keyup"
+                    <p:panelGrid columns="2" style="width:100%">
+                        <p:inputNumber value="#{bookListBean.filter.publishedYearFrom}" placeholder="From">
+                            <p:ajax event="change"
                                     oncomplete="PF('booksTable').filter()"
                                     delay="500"/>
                         </p:inputNumber>
 
-                        <p:inputNumber value="#{bookListBean.yearTo}" placeholder="To">
-                            <p:ajax event="keyup"
+                        <p:inputNumber value="#{bookListBean.filter.publishedYearTo}" placeholder="To">
+                            <p:ajax event="change"
                                     oncomplete="PF('booksTable').filter()"
                                     delay="500"/>
                         </p:inputNumber>
@@ -89,20 +93,22 @@
                 #{book.isbn}
             </p:column>
 
-            <p:column headerText="Pages" field="pages">
+            <p:column headerText="Pages"
+                      filterBy="#{book.pages}"
+                      field="pages">
 
                 #{book.pages}
 
                 <f:facet name="filter">
-                    <p:panelGrid columns="2" style="width:50%">
-                        <p:inputNumber value="#{bookListBean.pagesFrom}" placeholder="From">
-                            <p:ajax event="keyup"
+                    <p:panelGrid columns="2" style="width:100%">
+                        <p:inputNumber value="#{bookListBean.filter.pagesFrom}" placeholder="From">
+                            <p:ajax event="change"
                                     oncomplete="PF('booksTable').filter()"
                                     delay="500"/>
                         </p:inputNumber>
 
-                        <p:inputNumber value="#{bookListBean.pagesTo}" placeholder="To">
-                            <p:ajax event="keyup"
+                        <p:inputNumber value="#{bookListBean.filter.pagesTo}" placeholder="To">
+                            <p:ajax event="change"
                                     oncomplete="PF('booksTable').filter()"
                                     delay="500"/>
                         </p:inputNumber>
