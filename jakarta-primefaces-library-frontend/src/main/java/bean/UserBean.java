@@ -1,4 +1,4 @@
-package view;
+package bean;
 
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
