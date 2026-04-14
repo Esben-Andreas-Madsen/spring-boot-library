@@ -1,4 +1,4 @@
-package bean;
+package bean.theme;
 
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.Resource;

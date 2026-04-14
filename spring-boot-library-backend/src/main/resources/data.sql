@@ -201,7 +201,7 @@ WHERE b.title = 'The Long Earth';
 
 INSERT INTO genres (name)
 SELECT 'Genre ' || gs
-FROM generate_series(1, 20) AS gs;
+FROM generate_series(1, 100) AS gs;
 
 
 -- =========================

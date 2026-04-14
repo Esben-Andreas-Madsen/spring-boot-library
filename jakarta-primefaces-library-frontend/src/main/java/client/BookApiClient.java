@@ -34,10 +34,12 @@ public interface BookApiClient {
     );
 
     @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     BookDto editBook(BookDto book);
 
     @POST
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     BookDto createBook(BookDto book);
 

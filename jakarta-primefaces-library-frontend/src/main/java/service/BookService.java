@@ -15,29 +15,30 @@ public class BookService {
 
     @Inject
     @RestClient
-    BookApiClient api;
+    BookApiClient bookApiClient;
 
     public PageDto<BookDto> getBooks(int page, int size, BookFilter filter, List<String> sort) {
-        return api.getBooks(page, size, filter, sort);
+        return bookApiClient.getBooks(page, size, filter, sort);
     }
 
     public PageDto<BookDto> getBooks(int page, int size) {
-        return api.getBooks(page, size, new BookFilter(), null);
+        return bookApiClient.getBooks(page, size, new BookFilter(), null);
     }
 
     public BookDto getBook(int id) {
-        return api.getBook(id);
+        return bookApiClient.getBook(id);
     }
 
     public BookDto createBook(BookDto book) {
-        return api.createBook(book);
+        System.out.println(book.toString());
+        return bookApiClient.createBook(book);
     }
 
-    public BookDto editBook(BookDto book) {
-        return api.editBook(book);
+    public BookDto updateBook(BookDto book) {
+        return bookApiClient.editBook(book);
     }
 
     public void deleteBook(int id) {
-        api.deleteBook(id);
+        bookApiClient.deleteBook(id);
     }
 }

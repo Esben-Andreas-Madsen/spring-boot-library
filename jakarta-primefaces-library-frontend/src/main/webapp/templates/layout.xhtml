@@ -2,8 +2,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="jakarta.faces.html"
       xmlns:f="jakarta.faces.core"
-      xmlns:pt="jakarta.faces.passthrough"
-      xmlns:jsf="jakarta.faces"
       xmlns:ui="jakarta.faces.facelets"
       xmlns:p="primefaces">
 
@@ -12,10 +10,11 @@
 
     <h:outputStylesheet library="primefaces"
                         name="themes/#{themeBean.theme}/theme.css"/>
+
 </h:head>
 
 <h:body>
-    <div class="card">
+    <div>
         <h:form>
             <p:menubar id="menuBar">
 

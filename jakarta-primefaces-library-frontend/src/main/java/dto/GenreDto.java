@@ -6,7 +6,7 @@ public class GenreDto {
     private Integer id;
     private String name;
 
-    private Set<Integer> bookIds;
+    private Set<Long> bookIds;
 
     public Integer getId() {
         return id;
@@ -24,11 +24,11 @@ public class GenreDto {
         this.name = name;
     }
 
-    public Set<Integer> getBookIds() {
+    public Set<Long> getBookIds() {
         return bookIds;
     }
 
-    public void setBookIds(Set<Integer> bookIds) {
+    public void setBookIds(Set<Long> bookIds) {
         this.bookIds = bookIds;
     }
 
