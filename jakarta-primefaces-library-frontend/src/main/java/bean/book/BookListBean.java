@@ -21,27 +21,26 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.*;
 
-
 @Named
 @ViewScoped
 public class BookListBean implements Serializable {
 
     @Inject
-    BookService bookService;
+    private BookService bookService;
 
     @Inject
-    GenreService genreService;
+    private AuthorService authorService;
 
     @Inject
-    AuthorService authorService;
+    private GenreService genreService;
 
     private LazyDataModel<BookDto> books;
 
     private BookFilter filter = new BookFilter();
 
-    private BookDto selectedBook;
-
-    private List<BookDto> selectedBooks = new ArrayList<>();
+    // lazy lookup cache
+    private final Map<Long, AuthorDto> authorCache = new HashMap<>();
+    private final Map<Long, GenreDto> genreCache = new HashMap<>();
 
     @PostConstruct
     public void init() {
@@ -62,13 +61,14 @@ public class BookListBean implements Serializable {
 
                 int page = first / pageSize;
 
-                // apply PrimeFaces column filters
-                applyFilters(filterBy, filter);
+                filter = new BookFilter();
 
-                // apply sorting
+                applyFilters(filterBy);
+
                 List<String> sort = buildSort(sortBy);
 
-                PageDto<BookDto> result = bookService.getBooks(page, pageSize, filter, sort);
+                PageDto<BookDto> result =
+                        bookService.getBooks(page, pageSize, filter, sort);
 
                 setRowCount((int) result.getTotalElements());
 
@@ -83,7 +83,6 @@ public class BookListBean implements Serializable {
             @Override
             public BookDto getRowData(String rowKey) {
 
-                // look in current page first
                 List<BookDto> current = (List<BookDto>) getWrappedData();
 
                 if (current != null) {
@@ -107,10 +106,6 @@ public class BookListBean implements Serializable {
         return filter;
     }
 
-    public void setFilter(BookFilter filter) {
-        this.filter = filter;
-    }
-
     private List<String> buildSort(Map<String, SortMeta> sortBy) {
 
         if (sortBy == null || sortBy.isEmpty()) {
@@ -125,7 +120,7 @@ public class BookListBean implements Serializable {
                 .toList();
     }
 
-    private void applyFilters(Map<String, FilterMeta> filterBy, BookFilter filter) {
+    private void applyFilters(Map<String, FilterMeta> filterBy) {
 
         filterBy.forEach((key, meta) -> {
 
@@ -147,42 +142,25 @@ public class BookListBean implements Serializable {
         });
     }
 
-    public void openNew() {
-        selectedBook = new BookDto();
-    }
+    public List<AuthorDto> getAuthorsByIds(Collection<Long> ids) {
 
-    public void saveBook() {
-        if (selectedBook.getId() == null) {
-            bookService.createBook(selectedBook);
-        } else {
-            bookService.updateBook(selectedBook);
+        if (ids == null || ids.isEmpty()) {
+            return List.of();
         }
-    }
 
-    public void deleteBook(BookDto book) {
-        bookService.deleteBook(book.getId());
-    }
+        List<Long> missing = ids.stream()
+                .filter(id -> !authorCache.containsKey(id))
+                .toList();
 
-    public void deleteSelectedBooks() {
-        for (BookDto book : selectedBooks) {
-            bookService.deleteBook(book.getId());
+        if (!missing.isEmpty()) {
+            List<AuthorDto> fetched = authorService.getAuthorsByIds(missing);
+            fetched.forEach(a -> authorCache.put(Long.valueOf(a.getId()), a));
         }
-    }
 
-    public BookDto getSelectedBook() {
-        return selectedBook;
-    }
-
-    public void setSelectedBook(BookDto selectedBook) {
-        this.selectedBook = selectedBook;
-    }
-
-    public List<BookDto> getSelectedBooks() {
-        return selectedBooks;
-    }
-
-    public void setSelectedBooks(List<BookDto> selectedBooks) {
-        this.selectedBooks = selectedBooks;
+        return ids.stream()
+                .map(authorCache::get)
+                .filter(Objects::nonNull)
+                .toList();
     }
 
     public List<GenreDto> getGenresByIds(Collection<Long> ids) {
@@ -191,15 +169,18 @@ public class BookListBean implements Serializable {
             return List.of();
         }
 
-        return genreService.getGenresByIds(new ArrayList<>(ids));
-    }
+        List<Long> missing = ids.stream()
+                .filter(id -> !genreCache.containsKey(id))
+                .toList();
 
-    public List<AuthorDto> getAuthorsByIds(Collection<Long> ids) {
-
-        if (ids == null || ids.isEmpty()) {
-            return List.of();
+        if (!missing.isEmpty()) {
+            List<GenreDto> fetched = genreService.getGenresByIds(missing);
+            fetched.forEach(g -> genreCache.put(Long.valueOf(g.getId()), g));
         }
 
-        return authorService.getAuthorsByIds(new ArrayList<>(ids));
+        return ids.stream()
+                .map(genreCache::get)
+                .filter(Objects::nonNull)
+                .toList();
     }
 }

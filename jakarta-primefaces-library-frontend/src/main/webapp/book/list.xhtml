@@ -14,262 +14,116 @@
     <ui:define name="content">
         <div>
 
-        <h:form id="bookForm">
+            <h:form id="bookForm">
 
-            <p:toolbar style="margin-top: 1rem;">
-                <p:toolbarGroup>
+                <p:dataTable id="dt-books"
+                             widgetVar="dtBooks"
+                             var="book"
+                             value="#{bookListBean.books}"
+                             allowUnsorting="true"
+                             lazy="true"
+                             paginator="true"
+                             rows="10"
+                             rowKey="#{book.id}">
 
-                    <p:commandButton value="New"
-                                     icon="pi pi-plus"
-                                     actionListener="#{bookListBean.openNew}"
-                                     update=":dialogs:book-content"
-                                     oncomplete="PF('bookDialog').show()"
-                                     styleClass="ui-button-success">
-                        <p:resetInput target=":dialogs:book-content"/>
-                    </p:commandButton>
+                    <p:column headerText="Title"
+                              field="title"
+                              sortBy="#{book.title}"
+                              filterBy="#{book.title}"
+                              filterMatchMode="contains">
+                        #{book.title}
+                    </p:column>
 
-                    <p:commandButton id="delete-books-button"
-                                     style="margin-left: 0.5rem;"
-                                     value="Delete"
-                                     icon="pi pi-trash"
-                                     actionListener="#{bookListBean.deleteSelectedBooks}"
-                                     disabled="#{empty bookListBean.selectedBooks}"
-                                     styleClass="ui-button-danger">
-                        <p:confirm header="Confirmation"
-                                   message="Delete selected books?"
-                                   icon="pi pi-exclamation-triangle"/>
-                    </p:commandButton>
+                    <p:column headerText="Authors">
+                        <ui:repeat value="#{bookListBean.getAuthorsByIds(book.authorIds)}" var="author">
+                            #{author.name}
+                        </ui:repeat>
+                    </p:column>
 
-                </p:toolbarGroup>
-            </p:toolbar>
+                    <p:column headerText="Genres">
+                        <ui:repeat value="#{bookListBean.getGenresByIds(book.genreIds)}" var="genre">
+                            #{genre.name}
+                        </ui:repeat>
+                    </p:column>
 
+                    <p:column headerText="Language"
+                              field="language"
+                              filterBy="#{book.language}"
+                              filterMatchMode="contains">
+                        #{book.language}
+                    </p:column>
 
-            <p:dataTable id="dt-books"
-                         widgetVar="dtBooks"
-                         var="book"
-                         value="#{bookListBean.books}"
-                         allowUnsorting="true"
-                         lazy="true"
-                         paginator="true"
-                         rows="10"
-                         rowKey="#{book.id}"
-                         selection="#{bookListBean.selectedBooks}"
-                         selectionRowMode="add">
+                    <p:column headerText="Published"
+                              filterBy="#{book.publishedYear}"
+                              field="publishedYear">
 
+                        #{book.publishedYear}
 
-                <p:column selectionBox="true"/>
+                        <f:facet name="filter">
+                            <div class="ui-column-filter"
+                                 style="display:flex; flex-direction:column; gap:0.5rem;">
 
-            <p:column headerText="Title"
-                      field="title"
-                      sortBy="#{book.title}"
-                      filterBy="#{book.title}"
-                      filterMatchMode="contains">
-                #{book.title}
-            </p:column>
+                                <p:inputNumber value="#{bookListBean.filter.publishedYearFrom}"
+                                               placeholder="From">
+                                    <p:ajax event="change"
+                                            oncomplete="PF('dtBooks').filter()"
+                                            delay="500"/>
+                                </p:inputNumber>
 
-            <p:column headerText="Authors">
-                <ui:repeat value="#{bookListBean.getAuthorsByIds(book.authorIds)}" var="author">
-                    #{author.name}
-                </ui:repeat>
-            </p:column>
+                                <p:inputNumber value="#{bookListBean.filter.publishedYearTo}"
+                                               placeholder="To">
+                                    <p:ajax event="change"
+                                            oncomplete="PF('dtBooks').filter()"
+                                            delay="500"/>
+                                </p:inputNumber>
 
-            <p:column headerText="Genres">
-                <ui:repeat value="#{bookListBean.getGenresByIds(book.genreIds)}" var="genre">
-                    #{genre.name}
-                </ui:repeat>
-            </p:column>
+                            </div>
+                        </f:facet>
 
-            <p:column headerText="Language"
-                      field="language"
-                      filterBy="#{book.language}"
-                      filterMatchMode="contains">
-                #{book.language}
-            </p:column>
+                    </p:column>
 
-            <p:column headerText="Published"
-                      filterBy="#{book.publishedYear}"
-                      field="publishedYear">
+                    <p:column headerText="ISBN"
+                              field="isbn"
+                              filterMatchMode="equals"
+                              filterBy="#{book.isbn}">
+                        #{book.isbn}
+                    </p:column>
 
-                #{book.publishedYear}
+                    <p:column headerText="Pages"
+                              filterBy="#{book.pages}"
+                              field="pages">
 
-                <f:facet name="filter">
-                    <p:panelGrid columns="2">
-                        <p:inputNumber value="#{bookListBean.filter.publishedYearFrom}" placeholder="From">
-                            <p:ajax event="change"
-                                    oncomplete="PF('dtBooks').filter()"
-                                    delay="500"/>
-                        </p:inputNumber>
+                        #{book.pages}
 
-                        <p:inputNumber value="#{bookListBean.filter.publishedYearTo}" placeholder="To">
-                            <p:ajax event="change"
-                                    oncomplete="PF('dtBooks').filter()"
-                                    delay="500"/>
-                        </p:inputNumber>
-                    </p:panelGrid>
-                </f:facet>
+                        <f:facet name="filter">
+                            <div class="ui-column-filter"
+                                 style="display:flex; flex-direction:column; gap:0.5rem;">
 
-            </p:column>
+                                <p:inputNumber value="#{bookListBean.filter.pagesFrom}"
+                                               placeholder="From">
+                                    <p:ajax event="change"
+                                            oncomplete="PF('dtBooks').filter()"
+                                            delay="500"/>
+                                </p:inputNumber>
 
-            <p:column headerText="ISBN"
-                      field="isbn"
-                      filterMatchMode="equals"
-                      filterBy="#{book.isbn}">
-                #{book.isbn}
-            </p:column>
+                                <p:inputNumber value="#{bookListBean.filter.pagesTo}"
+                                               placeholder="To">
+                                    <p:ajax event="change"
+                                            oncomplete="PF('dtBooks').filter()"
+                                            delay="500"/>
+                                </p:inputNumber>
 
-            <p:column headerText="Pages"
-                      filterBy="#{book.pages}"
-                      field="pages">
+                            </div>
+                        </f:facet>
 
-                #{book.pages}
+                    </p:column>
 
-                <f:facet name="filter">
-                    <p:panelGrid columns="2" style="width:100%">
-                        <p:inputNumber value="#{bookListBean.filter.pagesFrom}" placeholder="From">
-                            <p:ajax event="change"
-                                    oncomplete="PF('dtBooks').filter()"
-                                    delay="500"/>
-                        </p:inputNumber>
+                </p:dataTable>
 
-                        <p:inputNumber value="#{bookListBean.filter.pagesTo}" placeholder="To">
-                            <p:ajax event="change"
-                                    oncomplete="PF('dtBooks').filter()"
-                                    delay="500"/>
-                        </p:inputNumber>
-                    </p:panelGrid>
-                </f:facet>
-
-            </p:column>
-
-
-                <p:column>
-
-                    <p:commandButton icon="pi pi-pencil"
-                                     update=":dialogs:book-content"
-                                     oncomplete="PF('bookDialog').show()"
-                                     process="@this"
-                                     styleClass="ui-button-success rounded-button">
-
-                        <f:setPropertyActionListener
-                                value="#{book}"
-                                target="#{bookListBean.selectedBook}"/>
-
-                        <p:resetInput target=":dialogs:book-content"/>
-
-                    </p:commandButton>
-
-                    <p:commandButton icon="pi pi-trash"
-                                     process="@this"
-                                     oncomplete="PF('deleteBookDialog').show()"
-                                     class="ui-button-warning rounded-button">
-
-                        <f:setPropertyActionListener value="#{book}"
-                                                     target="#{bookListBean.selectedBook}"/>
-
-                    </p:commandButton>
-
-                </p:column>
-
-        </p:dataTable>
-
-        </h:form>
-
-
-        <h:form id="dialogs">
-
-            <p:dialog header="Book Details"
-                      widgetVar="bookDialog"
-                      modal="true"
-                      responsive="true"
-                      showEffect="fade">
-
-                <p:outputPanel id="book-content" class="ui-fluid">
-
-                    <div class="field">
-                        <p:outputLabel for="title" value="Title"/>
-                        <p:inputText id="title"
-                                     value="#{bookListBean.selectedBook.title}"/>
-                    </div>
-
-                    <div class="field">
-                        <p:outputLabel for="language" value="Language"/>
-                        <p:inputText id="language"
-                                     value="#{bookListBean.selectedBook.language}"/>
-                    </div>
-
-                    <div class="field">
-                        <p:outputLabel for="year" value="Published"/>
-                        <p:inputNumber id="year"
-                                       value="#{bookListBean.selectedBook.publishedYear}"/>
-                    </div>
-
-                    <div class="field">
-                        <p:outputLabel for="isbn" value="ISBN"/>
-                        <p:inputText id="isbn"
-                                     value="#{bookListBean.selectedBook.isbn}"/>
-                    </div>
-
-                    <div class="field">
-                        <p:outputLabel for="pages" value="Pages"/>
-                        <p:inputNumber id="pages"
-                                       value="#{bookListBean.selectedBook.pages}"/>
-                    </div>
-
-                </p:outputPanel>
-
-                <f:facet name="footer">
-
-                    <p:commandButton value="Save"
-                                     icon="pi pi-check"
-                                     actionListener="#{bookListBean.saveBook}"
-                                     update="book-content"
-                                     process="book-content @this"/>
-
-                    <p:commandButton value="Cancel"
-                                     icon="pi pi-times"
-                                     onclick="PF('bookDialog').hide()"
-                                     type="button"
-                                     class="ui-button-secondary"/>
-
-                </f:facet>
-
-            </p:dialog>
-
-            <p:confirmDialog widgetVar="deleteBookDialog"
-                             header="Confirm"
-                             message="Delete this book?"
-                             width="300"
-                             height="auto"
-                             showEffect="fade"
-                             hideEffect="fade"
-                             severity="warn">
-
-                <p:commandButton value="Yes"
-                                 icon="pi pi-check"
-                                 actionListener="#{bookListBean.deleteBook}"
-                                 process="@this"
-                                 oncomplete="PF('deleteBookDialog').hide()"/>
-
-                <p:commandButton value="No"
-                                 type="button"
-                                 class="ui-button-secondary"
-                                 icon="pi pi-times"
-                                 onclick="PF('deleteBookDialog').hide()"/>
-
-            </p:confirmDialog>
-
-            <p:confirmDialog global="true" showEffect="fade" width="300">
-                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
-                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
-                                 icon="pi pi-times" />
-            </p:confirmDialog>
-
-        </h:form>
+            </h:form>
 
         </div>
-
     </ui:define>
 
 </ui:composition>
 </html>
-
