@@ -245,7 +245,7 @@ JOIN LATERAL (
     SELECT id
     FROM authors
     ORDER BY random()
-    LIMIT (1 + floor(random() * 3))::int
+    LIMIT (1 + floor(random() * 20))::int
 ) a ON true;
 
 -- =========================
@@ -261,5 +261,6 @@ JOIN LATERAL (
     SELECT id
     FROM genres
     ORDER BY random()
-    LIMIT (1 + floor(random() * 4))::int
+    LIMIT (1 + floor(random() * 20))::int
 ) g ON true;
+
