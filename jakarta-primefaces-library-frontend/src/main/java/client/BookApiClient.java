@@ -3,6 +3,7 @@ package client;
 import dto.BookDto;
 import dto.PageDto;
 import filter.BookFilter;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.microprofile.rest.client.annotation.RegisterClientHeaders;
@@ -10,7 +11,6 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import security.AuthHeaderFactory;
 
 import java.util.List;
-
 
 @Path("/api/books")
 @RegisterClientHeaders(AuthHeaderFactory.class)
@@ -32,6 +32,7 @@ public interface BookApiClient {
     BookDto getBook(
             @PathParam("id") int id
     );
+
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)

@@ -6,7 +6,6 @@
       xmlns:p="primefaces">
 
 <h:head>
-    <title>Library App</title>
 
     <h:outputStylesheet library="primefaces"
                         name="themes/#{themeBean.theme}/theme.css"/>
@@ -32,11 +31,17 @@
                 <!-- MENU -->
 
                 <p:menuitem value="Home" icon="pi pi-compass" outcome="/index.xhtml?faces-redirect=true"/>
-                <p:menuitem value="Secure Page" outcome="/secure.xhtml?faces-redirect=true"/>
+                <p:menuitem value="Profile" icon="pi pi-user" outcome="/secure.xhtml?faces-redirect=true"/>
 
                 <p:divider layout="vertical"/>
 
-                <p:menuitem value="Books" icon="pi pi-book" outcome="/book/list.xhtml?faces-redirect=true"/>
+                <p:menuitem value="View Books" icon="pi pi-book" outcome="/book/list.xhtml?faces-redirect=true"/>
+
+                <p:menuitem value="Register Book" icon="pi pi-plus-circle" outcome="/book/register.xhtml?faces-redirect=true"/>
+
+                <p:menuitem value="Remove Book" icon="pi pi-minus-circle" outcome="/book/remove.xhtml?faces-redirect=true"/>
+
+                <p:menuitem value="Edit Book" icon="pi pi-pen-to-square" outcome="/book/edit.xhtml?faces-redirect=true"/>
 
                 <!-- RIGHT SIDE -->
                 <f:facet name="end">

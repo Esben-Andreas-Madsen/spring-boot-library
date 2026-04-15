@@ -2,6 +2,7 @@ package client;
 
 import dto.AuthorDto;
 import dto.PageDto;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.microprofile.rest.client.annotation.RegisterClientHeaders;

@@ -7,9 +7,13 @@
 
 <ui:composition template="/templates/layout.xhtml">
 
+    <ui:define name="header">
+        <title>Profile</title>
+    </ui:define>
+
     <ui:define name="content">
         <h:body>
-            <div class="card">
+            <div>
             <h:form>
                     <h:outputText value="Welcome #{userBean.username}! You are logged in." rendered="#{userBean.loggedIn}" />
                     <h:outputText value="You are not logged in." rendered="#{not userBean.loggedIn}" />
