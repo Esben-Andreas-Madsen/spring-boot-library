@@ -96,13 +96,13 @@
                     <p:panelGrid columns="2">
                         <p:inputNumber value="#{bookListBean.filter.publishedYearFrom}" placeholder="From">
                             <p:ajax event="change"
-                                    oncomplete="PF('booksTable').filter()"
+                                    oncomplete="PF('dtBooks').filter()"
                                     delay="500"/>
                         </p:inputNumber>
 
                         <p:inputNumber value="#{bookListBean.filter.publishedYearTo}" placeholder="To">
                             <p:ajax event="change"
-                                    oncomplete="PF('booksTable').filter()"
+                                    oncomplete="PF('dtBooks').filter()"
                                     delay="500"/>
                         </p:inputNumber>
                     </p:panelGrid>
@@ -127,13 +127,13 @@
                     <p:panelGrid columns="2" style="width:100%">
                         <p:inputNumber value="#{bookListBean.filter.pagesFrom}" placeholder="From">
                             <p:ajax event="change"
-                                    oncomplete="PF('booksTable').filter()"
+                                    oncomplete="PF('dtBooks').filter()"
                                     delay="500"/>
                         </p:inputNumber>
 
                         <p:inputNumber value="#{bookListBean.filter.pagesTo}" placeholder="To">
                             <p:ajax event="change"
-                                    oncomplete="PF('booksTable').filter()"
+                                    oncomplete="PF('dtBooks').filter()"
                                     delay="500"/>
                         </p:inputNumber>
                     </p:panelGrid>

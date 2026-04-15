@@ -107,6 +107,10 @@ public class BookListBean implements Serializable {
         return filter;
     }
 
+    public void setFilter(BookFilter filter) {
+        this.filter = filter;
+    }
+
     private List<String> buildSort(Map<String, SortMeta> sortBy) {
 
         if (sortBy == null || sortBy.isEmpty()) {
@@ -198,5 +202,4 @@ public class BookListBean implements Serializable {
 
         return authorService.getAuthorsByIds(new ArrayList<>(ids));
     }
-
 }
