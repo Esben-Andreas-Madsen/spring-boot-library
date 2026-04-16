@@ -15,6 +15,7 @@ Practicing Spring Boot by making a library project with:
 Dockerized development environment for a Spring Boot backend secured with OAuth2 (Keycloak) and backed by PostgreSQL.
 
 ### Running the Project
+Requires Docker Desktop with [*.docker.internal resolving enabled](https://docs.docker.com/desktop/setup/install/windows-permission-requirements/#privileged-helper)  
 Build and start all services:
 `docker-compose up --build`  
 
