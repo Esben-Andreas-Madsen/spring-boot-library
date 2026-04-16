@@ -12,10 +12,56 @@
     </ui:define>
 
     <ui:define name="content">
-        <div>
+        <h:form>
 
+            <p:panel header="Register Book">
 
-        </div>
+                <p:panelGrid columns="2">
+
+                    <p:outputLabel value="Title"/>
+                    <p:inputText value="#{bookBean.create.title}" required="true"/>
+
+                    <p:autoComplete id="authors"
+                                    multiple="true"
+                                    value="#{bookBean.create.authorIds}"
+                                    completeMethod="#{bookBean.getAuthorsByIds()}"
+                                    var="author"
+                                    itemLabel="#{author.name}"
+                                    itemValue="#{author.id}"
+                                    dropdown="true"
+                                    forceSelection="true"/>
+
+                    <p:autoComplete id="genres"
+                                    multiple="true"
+                                    value="#{bookBean.create.genreIds}"
+                                    completeMethod="#{bookBean.getGenresByIds()}"
+                                    var="genre"
+                                    itemLabel="#{genre.name}"
+                                    itemValue="#{genre.id}"
+                                    dropdown="true"
+                                    forceSelection="true"/>
+
+                    <p:outputLabel value="Language"/>
+                    <p:inputText value="#{bookBean.create.language}"/>
+
+                    <p:outputLabel value="Published"/>
+                    <p:inputNumber value="#{bookBean.create.publishedYear}"/>
+
+                    <p:outputLabel value="Pages"/>
+                    <p:inputNumber value="#{bookBean.create.pages}"/>
+
+                    <p:outputLabel value="ISBN"/>
+                    <p:inputText value="#{bookBean.create.isbn}"/>
+
+                </p:panelGrid>
+
+                <p:commandButton value="Save"
+                                 action="#{bookBean.save}"
+                                 update="@form"/>
+
+            </p:panel>
+
+        </h:form>
     </ui:define>
 
 </ui:composition>

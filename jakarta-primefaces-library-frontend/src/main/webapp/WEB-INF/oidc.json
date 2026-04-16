@@ -2,7 +2,7 @@
   "provider-url": "http://host.docker.internal:1852/realms/library",
   "client-id": "jakarta-frontend",
   "public-client": true,
-  "ssl-required": "external",
+  "ssl-required": "EXTERNAL",
   "principal-attribute": "preferred_username",
   "use-realm-role-mappings": true,
   "use-resource-role-mappings": true

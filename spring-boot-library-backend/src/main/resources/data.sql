@@ -245,7 +245,7 @@ JOIN LATERAL (
     SELECT id
     FROM authors
     ORDER BY random()
-    LIMIT (1 + floor(random() * 20))::int
+    LIMIT (1 + floor(random() * 3))::int
 ) a ON true;
 
 -- =========================

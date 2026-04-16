@@ -3,6 +3,7 @@ package service;
 import client.AuthorApiClient;
 import dto.AuthorDto;
 import dto.PageDto;
+import filter.AuthorFilter;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -16,8 +17,12 @@ public class AuthorService {
     @RestClient
     AuthorApiClient authorApiClient;
 
+    public PageDto<AuthorDto> getAuthors(int page, int size, AuthorFilter filter, List<String> sort) {
+        return authorApiClient.getAuthors(page, size, filter, sort);
+    }
+
     public PageDto<AuthorDto> getAuthors(int page, int size) {
-        return authorApiClient.getAuthors(page, size);
+        return authorApiClient.getAuthors(page, size, new AuthorFilter(), null);
     }
 
     public AuthorDto getAuthor(int id) {

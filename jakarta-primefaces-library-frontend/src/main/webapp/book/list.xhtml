@@ -19,7 +19,7 @@
                 <p:dataTable id="dt-books"
                              widgetVar="dtBooks"
                              var="book"
-                             value="#{bookListBean.books}"
+                             value="#{bookBean.books}"
                              allowUnsorting="true"
                              lazy="true"
                              paginator="true"
@@ -35,14 +35,14 @@
                     </p:column>
 
                     <p:column headerText="Authors">
-                        <ui:repeat value="#{bookListBean.getAuthorsByIds(book.authorIds)}" var="author">
-                            #{author.name}
+                        <ui:repeat value="#{bookBean.getAuthorsByIds(book.authorIds)}" var="author" varStatus="s">
+                            #{author.name}#{!s.last ? ', ' : ''}
                         </ui:repeat>
                     </p:column>
 
                     <p:column headerText="Genres">
-                        <ui:repeat value="#{bookListBean.getGenresByIds(book.genreIds)}" var="genre">
-                            #{genre.name}
+                        <ui:repeat value="#{bookBean.getGenresByIds(book.genreIds)}" var="genre" varStatus="s">
+                            #{genre.name}#{!s.last ? ', ' : ''}
                         </ui:repeat>
                     </p:column>
 
@@ -63,14 +63,14 @@
                             <div class="ui-column-filter"
                                  style="display:flex; flex-direction:column; gap:0.5rem;">
 
-                                <p:inputNumber value="#{bookListBean.filter.publishedYearFrom}"
+                                <p:inputNumber value="#{bookBean.filter.publishedYearFrom}"
                                                placeholder="From">
                                     <p:ajax event="change"
                                             oncomplete="PF('dtBooks').filter()"
                                             delay="500"/>
                                 </p:inputNumber>
 
-                                <p:inputNumber value="#{bookListBean.filter.publishedYearTo}"
+                                <p:inputNumber value="#{bookBean.filter.publishedYearTo}"
                                                placeholder="To">
                                     <p:ajax event="change"
                                             oncomplete="PF('dtBooks').filter()"
@@ -99,14 +99,14 @@
                             <div class="ui-column-filter"
                                  style="display:flex; flex-direction:column; gap:0.5rem;">
 
-                                <p:inputNumber value="#{bookListBean.filter.pagesFrom}"
+                                <p:inputNumber value="#{bookBean.filter.pagesFrom}"
                                                placeholder="From">
                                     <p:ajax event="change"
                                             oncomplete="PF('dtBooks').filter()"
                                             delay="500"/>
                                 </p:inputNumber>
 
-                                <p:inputNumber value="#{bookListBean.filter.pagesTo}"
+                                <p:inputNumber value="#{bookBean.filter.pagesTo}"
                                                placeholder="To">
                                     <p:ajax event="change"
                                             oncomplete="PF('dtBooks').filter()"

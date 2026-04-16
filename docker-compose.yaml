@@ -129,5 +129,3 @@ volumes:
 networks:
   local_network:
     driver: bridge
-    # name: spring-boot-library_default
-    # external: true

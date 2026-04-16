@@ -2,6 +2,7 @@ package service;
 import client.GenreApiClient;
 import dto.GenreDto;
 import dto.PageDto;
+import filter.GenreFilter;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -15,8 +16,12 @@ public class GenreService {
     @RestClient
     GenreApiClient genreApiClient;
 
+    public PageDto<GenreDto> getGenres(int page, int size, GenreFilter filter, List<String> sort) {
+        return genreApiClient.getGenres(page, size, filter, sort);
+    }
+
     public PageDto<GenreDto> getGenres(int page, int size) {
-        return genreApiClient.getGenres(page, size);
+        return genreApiClient.getGenres(page, size, new GenreFilter(), null);
     }
 
     public GenreDto getGenre(int id) {
