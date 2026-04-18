@@ -1,34 +1,58 @@
 package bean.genre;
 
+import bean.LazyCrudBean;
 import datamodels.GenreLazyDataModel;
 import dto.GenreDto;
 import filter.GenreFilter;
-import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import org.primefaces.model.LazyDataModel;
 import service.GenreService;
 
-import java.io.Serializable;
-
 @Named
 @ViewScoped
-public class GenreBean implements Serializable {
+public class GenreBean extends LazyCrudBean<GenreDto, GenreFilter> {
 
     @Inject
     private GenreService genreService;
 
-    private LazyDataModel<GenreDto> genres;
-
-    private GenreFilter filter = new GenreFilter();
-
-    @PostConstruct
-    public void init() {
-        genres = new GenreLazyDataModel(genreService, filter);
+    @Override
+    protected LazyDataModel<GenreDto> newLazyModel(GenreFilter filter) {
+        return new GenreLazyDataModel(genreService, filter);
     }
 
-    public LazyDataModel<GenreDto> getGenres() {
-        return genres;
+    @Override
+    protected GenreFilter newFilter() {
+        return new GenreFilter();
+    }
+
+    @Override
+    protected GenreDto newEntity() {
+        return new GenreDto();
+    }
+
+    @Override
+    protected void createEntity(GenreDto entity) {
+
+    }
+
+    @Override
+    protected void updateEntity(GenreDto entity) {
+
+    }
+
+    @Override
+    protected void deleteEntity(GenreDto entity) {
+
+    }
+
+    @Override
+    protected Object getId(GenreDto entity) {
+        return null;
+    }
+
+    public GenreFilter getFilter() {
+        return filter;
     }
 }

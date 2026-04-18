@@ -3,7 +3,6 @@ package client;
 import dto.BookDto;
 import dto.PageDto;
 import filter.BookFilter;
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.microprofile.rest.client.annotation.RegisterClientHeaders;
@@ -35,9 +34,10 @@ public interface BookApiClient {
 
 
     @PUT
+    @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    BookDto editBook(BookDto book);
+    BookDto updateBook(@PathParam("id") Integer id, BookDto book);
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)

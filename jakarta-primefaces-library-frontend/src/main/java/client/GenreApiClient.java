@@ -3,7 +3,6 @@ package client;
 import dto.GenreDto;
 import dto.PageDto;
 import filter.GenreFilter;
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.microprofile.rest.client.annotation.RegisterClientHeaders;
@@ -30,4 +29,22 @@ public interface GenreApiClient {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     GenreDto getGenre(@PathParam("id") int id);
+
+    @PUT
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    GenreDto updateGenre(@PathParam("id") Integer id, GenreDto genre);
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    GenreDto createGenre(GenreDto genre);
+
+    @DELETE
+    @Path("/{id}")
+    void deleteGenre(
+            @PathParam("id") int id
+    );
+
 }

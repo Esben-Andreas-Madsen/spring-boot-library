@@ -1,10 +1,12 @@
 package datamodels;
 
 import dto.PageDto;
+import filter.AuthorFilter;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortMeta;
 import org.primefaces.model.SortOrder;
+import util.FilterMapper;
 
 import java.lang.reflect.Field;
 import java.util.Comparator;
@@ -15,14 +17,13 @@ public abstract class AbstractLazyDataModel<T, F> extends LazyDataModel<T> {
 
     protected F filter;
 
-    protected abstract PageDto<T> fetch(int page, int size, F filter, List<String> sort);
+    protected FilterMapper<F> filterMapper;
 
-    protected abstract F newFilter();
+    protected abstract PageDto<T> fetch(int page, int size, F filter, List<String> sort);
 
     public AbstractLazyDataModel(F filter) {
         this.filter = filter;
     }
-
     @Override
     public int count(Map<String, FilterMeta> filterBy) {
         return getRowCount();
@@ -37,7 +38,9 @@ public abstract class AbstractLazyDataModel<T, F> extends LazyDataModel<T> {
 
         int page = first / pageSize;
 
-        applyFilters(filterBy);
+        if (filterMapper != null) {
+            filterMapper.apply(filter, filterBy);
+        }
 
         List<String> sort = buildSort(sortBy);
 
@@ -60,26 +63,5 @@ public abstract class AbstractLazyDataModel<T, F> extends LazyDataModel<T> {
                 .map(meta -> meta.getField() + "," +
                         (meta.getOrder() == SortOrder.DESCENDING ? "desc" : "asc"))
                 .toList();
-    }
-
-    private void applyFilters(Map<String, FilterMeta> filterBy) {
-
-        filterBy.forEach((key, meta) -> {
-
-            Object value = meta.getFilterValue();
-            if (value == null) return;
-
-            try {
-                Field field = filter.getClass().getDeclaredField(key);
-                field.setAccessible(true);
-
-                if (field.getType().equals(Integer.class)) {
-                    field.set(filter, Integer.valueOf(value.toString()));
-                } else {
-                    field.set(filter, value.toString());
-                }
-
-            } catch (NoSuchFieldException | IllegalAccessException ignored) {}
-        });
     }
 }

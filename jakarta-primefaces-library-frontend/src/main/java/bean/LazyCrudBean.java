@@ -36,14 +36,24 @@ public abstract class LazyCrudBean<T, F> implements Serializable {
 
     public void save() {
 
-        if (getId(create) == null) {
-            createEntity(create);
+        T entity;
+
+        if (selected != null && getId(selected) != null) {
+            entity = selected;   // edit
         } else {
-            updateEntity(create);
+            entity = create;     // create
+        }
+
+        if (getId(entity) == null) {
+            createEntity(entity);
+        } else {
+            updateEntity(entity);
         }
 
         create = newEntity();
+        selected = null;
     }
+
 
     public void deleteSelected() {
         if (selected != null) {

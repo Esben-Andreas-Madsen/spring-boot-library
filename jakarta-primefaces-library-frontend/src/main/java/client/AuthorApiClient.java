@@ -30,4 +30,21 @@ public interface AuthorApiClient {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     AuthorDto getAuthor(@PathParam("id") int id);
+
+    @PUT
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    AuthorDto updateAuthor(@PathParam("id") Integer id, AuthorDto author);
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    AuthorDto createAuthor(AuthorDto author);
+
+    @DELETE
+    @Path("/{id}")
+    void deleteAuthor(
+            @PathParam("id") int id
+    );
 }

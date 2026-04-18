@@ -35,7 +35,7 @@ public class BookService {
     }
 
     public BookDto updateBook(BookDto book) {
-        return bookApiClient.editBook(book);
+        return bookApiClient.updateBook(book.getId(), book);
     }
 
     public void deleteBook(int id) {

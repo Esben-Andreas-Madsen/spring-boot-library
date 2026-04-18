@@ -35,4 +35,16 @@ public class GenreService {
                 .map(id -> genreApiClient.getGenre(id.intValue()))
                 .toList();
     }
+
+    public GenreDto createGenre(GenreDto genre) {
+        return genreApiClient.createGenre(genre);
+    }
+
+    public GenreDto updateGenre(GenreDto genre) {
+        return genreApiClient.updateGenre(genre.getId(), genre);
+    }
+
+    public void deleteGenre(int id) {
+        genreApiClient.deleteGenre(id);
+    }
 }

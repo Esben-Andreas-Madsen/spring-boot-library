@@ -19,12 +19,13 @@
                 <p:dataTable id="dt-books"
                              widgetVar="dtBooks"
                              var="book"
-                             value="#{bookBean.books}"
-                             allowUnsorting="true"
+                             value="#{bookBean.dataModel}"
                              lazy="true"
                              paginator="true"
                              rows="10"
-                             rowKey="#{book.id}">
+                             rowKey="#{book.id}"
+                             filterDelay="500"
+                             allowUnsorting="true">
 
                     <p:column headerText="Title"
                               field="title"
@@ -35,13 +36,17 @@
                     </p:column>
 
                     <p:column headerText="Authors">
-                        <ui:repeat value="#{bookBean.getAuthorsByIds(book.authorIds)}" var="author" varStatus="s">
+                        <ui:repeat value="#{bookBean.getAuthorsByIds(book.authorIds)}"
+                                   var="author"
+                                   varStatus="s">
                             #{author.name}#{!s.last ? ', ' : ''}
                         </ui:repeat>
                     </p:column>
 
                     <p:column headerText="Genres">
-                        <ui:repeat value="#{bookBean.getGenresByIds(book.genreIds)}" var="genre" varStatus="s">
+                        <ui:repeat value="#{bookBean.getGenresByIds(book.genreIds)}"
+                                   var="genre"
+                                   varStatus="s">
                             #{genre.name}#{!s.last ? ', ' : ''}
                         </ui:repeat>
                     </p:column>
@@ -54,14 +59,12 @@
                     </p:column>
 
                     <p:column headerText="Published"
-                              filterBy="#{book.publishedYear}"
                               field="publishedYear">
 
                         #{book.publishedYear}
 
                         <f:facet name="filter">
-                            <div class="ui-column-filter"
-                                 style="display:flex; flex-direction:column; gap:0.5rem;">
+                            <div style="display:flex; flex-direction:column; gap:0.5rem;">
 
                                 <p:inputNumber value="#{bookBean.filter.publishedYearFrom}"
                                                placeholder="From">
@@ -84,20 +87,18 @@
 
                     <p:column headerText="ISBN"
                               field="isbn"
-                              filterMatchMode="equals"
-                              filterBy="#{book.isbn}">
+                              filterBy="#{book.isbn}"
+                              filterMatchMode="equals">
                         #{book.isbn}
                     </p:column>
 
                     <p:column headerText="Pages"
-                              filterBy="#{book.pages}"
                               field="pages">
 
                         #{book.pages}
 
                         <f:facet name="filter">
-                            <div class="ui-column-filter"
-                                 style="display:flex; flex-direction:column; gap:0.5rem;">
+                            <div style="display:flex; flex-direction:column; gap:0.5rem;">
 
                                 <p:inputNumber value="#{bookBean.filter.pagesFrom}"
                                                placeholder="From">
@@ -118,7 +119,43 @@
 
                     </p:column>
 
+                    <p:column headerText="Actions" style="width:120px">
+
+                        <p:button icon="pi pi-pencil"
+                                  outcome="/book/edit"
+                                  title="Edit">
+                            <f:param name="id" value="#{book.id}" />
+                        </p:button>
+
+                        <p:commandButton icon="pi pi-trash"
+                                         action="#{bookBean.delete}"
+                                         update="dt-books"
+                                         styleClass="ui-button-danger"
+                                         process="@this">
+
+                            <f:setPropertyActionListener value="#{book}" target="#{bookBean.selected}"/>
+                        </p:commandButton>
+
+                    </p:column>
+
                 </p:dataTable>
+
+                <p:commandButton icon="pi pi-trash"
+                                 action="#{bookBean.delete}"
+                                 update="dt-books"
+                                 styleClass="ui-button-danger">
+
+                    <f:setPropertyActionListener value="#{book}" target="#{bookBean.selected}"/>
+
+                    <p:confirm header="Delete?"
+                               message="Are you sure you want to delete this book?"
+                               icon="pi pi-exclamation-triangle"/>
+                </p:commandButton>
+
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes"/>
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"/>
+                </p:confirmDialog>
 
             </h:form>
 

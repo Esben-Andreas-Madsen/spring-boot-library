@@ -35,4 +35,17 @@ public class AuthorService {
                 .map(id -> authorApiClient.getAuthor(id.intValue()))
                 .toList();
     }
+
+    public AuthorDto createAuthor(AuthorDto author) {
+        return authorApiClient.createAuthor(author);
+    }
+
+    public AuthorDto updateAuthor(AuthorDto author) {
+        return authorApiClient.updateAuthor(author.getId() ,author);
+    }
+
+    public void deleteAuthor(int id) {
+        authorApiClient.deleteAuthor(id);
+    }
+
 }

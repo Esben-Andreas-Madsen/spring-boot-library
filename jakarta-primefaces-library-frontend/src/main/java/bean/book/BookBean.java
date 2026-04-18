@@ -1,13 +1,14 @@
 package bean.book;
 
 import bean.LazyCrudBean;
-import cache.EntityCache;
+import jakarta.annotation.PostConstruct;
+import jakarta.faces.context.FacesContext;
+import util.EntityCache;
 import datamodels.BookLazyDataModel;
 import dto.AuthorDto;
 import dto.BookDto;
 import dto.GenreDto;
 import filter.BookFilter;
-import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -16,9 +17,8 @@ import service.AuthorService;
 import service.BookService;
 import service.GenreService;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Named
 @ViewScoped
@@ -33,21 +33,13 @@ public class BookBean extends LazyCrudBean<BookDto, BookFilter> {
     @Inject
     private GenreService genreService;
 
-    private LazyDataModel<BookDto> books;
-
-    private BookFilter filter = new BookFilter();
 
     private final EntityCache<Long, AuthorDto> authorCache = new EntityCache<>();
     private final EntityCache<Long, GenreDto> genreCache = new EntityCache<>();
 
-    @PostConstruct
-    public void init() {
-        books = new BookLazyDataModel(bookService, filter);
-    }
+    private List<AuthorDto> selectedAuthors = new ArrayList<>();
+    private List<GenreDto> selectedGenres = new ArrayList<>();
 
-    public LazyDataModel<BookDto> getBooks() {
-        return books;
-    }
 
     public BookFilter getFilter() {
         return filter;
@@ -98,5 +90,98 @@ public class BookBean extends LazyCrudBean<BookDto, BookFilter> {
     @Override
     protected Object getId(BookDto entity) {
         return entity.getId();
+    }
+
+    @Override
+    public void save() {
+
+        Set<Long> authorIds = selectedAuthors.stream()
+                .map(a -> Long.valueOf(a.getId()))
+                .collect(Collectors.toSet());
+
+        Set<Long> genreIds = selectedGenres.stream()
+                .map(g -> Long.valueOf(g.getId()))
+                .collect(Collectors.toSet());
+
+        if (selected != null && selected.getId() != null) {
+            // edit
+            selected.setAuthorIds(authorIds);
+            selected.setGenreIds(genreIds);
+
+        } else {
+            // create
+            create.setAuthorIds(authorIds);
+            create.setGenreIds(genreIds);
+        }
+
+        super.save();
+
+        selectedAuthors.clear();
+        selectedGenres.clear();
+    }
+
+
+    public List<AuthorDto> getSelectedAuthors() {
+        return selectedAuthors;
+    }
+
+    public List<GenreDto> getSelectedGenres() {
+        return selectedGenres;
+    }
+
+    public void setSelectedAuthors(List<AuthorDto> selectedAuthors) {
+        this.selectedAuthors = selectedAuthors;
+    }
+
+    public void setSelectedGenres(List<GenreDto> selectedGenres) {
+        this.selectedGenres = selectedGenres;
+    }
+
+    public void addAuthor(AuthorDto author) {
+        if (!selectedAuthors.contains(author)) {
+            selectedAuthors.add(author);
+        }
+    }
+
+    public void removeAuthor(AuthorDto author) {
+        selectedAuthors.remove(author);
+    }
+
+    public void addGenre(GenreDto genre) {
+        if (!selectedGenres.contains(genre)) {
+            selectedGenres.add(genre);
+        }
+    }
+
+    public void removeGenre(GenreDto genre) {
+        selectedGenres.remove(genre);
+    }
+
+    @PostConstruct
+    public void initEdit() {
+        String idParam = FacesContext.getCurrentInstance()
+                .getExternalContext()
+                .getRequestParameterMap()
+                .get("id");
+
+        if (idParam != null) {
+
+            Long id = Long.valueOf(idParam);
+
+            selected = bookService.getBook(Math.toIntExact(id));
+
+            selectedAuthors = new ArrayList<>(
+                    getAuthorsByIds(selected.getAuthorIds())
+            );
+
+            selectedGenres = new ArrayList<>(
+                    getGenresByIds(selected.getGenreIds())
+            );
+        }
+    }
+
+    public void delete() {
+        deleteEntity(selected);
+        selected = null;
     }
 }
