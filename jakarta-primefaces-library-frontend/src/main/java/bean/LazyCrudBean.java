@@ -4,6 +4,7 @@ import jakarta.annotation.PostConstruct;
 import org.primefaces.model.LazyDataModel;
 
 import java.io.Serializable;
+import java.util.List;
 
 public abstract class LazyCrudBean<T, F> implements Serializable {
 
@@ -14,6 +15,8 @@ public abstract class LazyCrudBean<T, F> implements Serializable {
     protected T selected;
 
     protected T create;
+
+    private List<T> selectedItems;
 
     @PostConstruct
     public void initCrud() {
@@ -54,10 +57,23 @@ public abstract class LazyCrudBean<T, F> implements Serializable {
         selected = null;
     }
 
+    public void openNew() {
+        selected = null;
+        create = newEntity();
+    }
+
 
     public void deleteSelected() {
-        if (selected != null) {
+
+        // multi-delete
+        if (selectedItems != null && !selectedItems.isEmpty()) {
+            selectedItems.forEach(this::deleteEntity);
+            selectedItems = null;
+        }
+        // fallback single-delete
+        else if (selected != null) {
             deleteEntity(selected);
+            selected = null;
         }
     }
 
@@ -85,5 +101,21 @@ public abstract class LazyCrudBean<T, F> implements Serializable {
 
     public void setCreate(T create) {
         this.create = create;
+    }
+
+    public List<T> getSelectedItems() {
+        return selectedItems;
+    }
+
+    public void setSelectedItems(List<T> selectedItems) {
+        this.selectedItems = selectedItems;
+    }
+
+    public boolean hasSelectedItems() {
+        return selectedItems != null && !selectedItems.isEmpty();
+    }
+
+    public T getCurrent() {
+        return selected != null ? selected : create;
     }
 }

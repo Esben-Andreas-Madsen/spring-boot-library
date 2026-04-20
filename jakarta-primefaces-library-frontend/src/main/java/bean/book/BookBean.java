@@ -184,4 +184,16 @@ public class BookBean extends LazyCrudBean<BookDto, BookFilter> {
         deleteEntity(selected);
         selected = null;
     }
+
+    public void loadForEdit(Long id) {
+        selected = bookService.getBook(id.intValue());
+
+        selectedAuthors = selected.getAuthorIds() == null
+                ? new ArrayList<>()
+                : new ArrayList<>(getAuthorsByIds(selected.getAuthorIds()));
+
+        selectedGenres = selected.getGenreIds() == null
+                ? new ArrayList<>()
+                : new ArrayList<>(getGenresByIds(selected.getGenreIds()));
+    }
 }

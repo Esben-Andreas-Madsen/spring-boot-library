@@ -134,23 +134,16 @@
                                          process="@this">
 
                             <f:setPropertyActionListener value="#{book}" target="#{bookBean.selected}"/>
+
+                            <p:confirm header="Delete?"
+                                       message="Are you sure you want to delete this book?"
+                                       icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>
 
                     </p:column>
 
                 </p:dataTable>
 
-                <p:commandButton icon="pi pi-trash"
-                                 action="#{bookBean.delete}"
-                                 update="dt-books"
-                                 styleClass="ui-button-danger">
-
-                    <f:setPropertyActionListener value="#{book}" target="#{bookBean.selected}"/>
-
-                    <p:confirm header="Delete?"
-                               message="Are you sure you want to delete this book?"
-                               icon="pi pi-exclamation-triangle"/>
-                </p:commandButton>
 
                 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                     <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes"/>

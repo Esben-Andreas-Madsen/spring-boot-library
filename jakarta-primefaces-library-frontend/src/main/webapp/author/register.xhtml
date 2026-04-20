@@ -1,0 +1,39 @@
+<ui:composition template="/templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:f="jakarta.faces.core">
+
+        <f:metadata>
+            <f:viewAction action="#{authorBean.loadFromId}" />
+        </f:metadata>
+
+    <ui:define name="content">
+
+
+        <h:form id="authorForm">
+
+            <p:panel header="Create Author">
+
+                <p:panelGrid columns="2">
+
+                    <p:outputLabel value="Name"/>
+                    <p:inputText value="#{authorBean.create.name}" required="true"/>
+
+                    <p:outputLabel value="Birth Year"/>
+                    <p:inputNumber value="#{authorBean.create.birthYear}"/>
+
+                </p:panelGrid>
+
+                <p:commandButton value="Save"
+                                 action="#{authorBean.save}"
+                                 ajax="false"/>
+
+            </p:panel>
+
+        </h:form>
+
+
+    </ui:define>
+</ui:composition>

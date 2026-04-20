@@ -24,9 +24,17 @@ public abstract class AbstractLazyDataModel<T, F> extends LazyDataModel<T> {
     public AbstractLazyDataModel(F filter) {
         this.filter = filter;
     }
+
     @Override
     public int count(Map<String, FilterMeta> filterBy) {
-        return getRowCount();
+
+        if (filterMapper != null) {
+            filterMapper.apply(filter, filterBy);
+        }
+
+        PageDto<T> result = fetch(0, 1, filter, List.of());
+
+        return (int) result.getTotalElements();
     }
 
     @Override
@@ -35,6 +43,10 @@ public abstract class AbstractLazyDataModel<T, F> extends LazyDataModel<T> {
             int pageSize,
             Map<String, SortMeta> sortBy,
             Map<String, FilterMeta> filterBy) {
+
+        if (pageSize == 0) {
+            return List.of();
+        }
 
         int page = first / pageSize;
 
@@ -63,5 +75,29 @@ public abstract class AbstractLazyDataModel<T, F> extends LazyDataModel<T> {
                 .map(meta -> meta.getField() + "," +
                         (meta.getOrder() == SortOrder.DESCENDING ? "desc" : "asc"))
                 .toList();
+    }
+
+    @Override
+    public String getRowKey(T object) {
+        try {
+            return String.valueOf(object.getClass().getMethod("getId").invoke(object));
+        } catch (Exception e) {
+            throw new RuntimeException("Unable to get row key", e);
+        }
+    }
+
+    @Override
+    public T getRowData(String rowKey) {
+        List<T> data = (List<T>) getWrappedData();
+
+        if (data != null) {
+            for (T item : data) {
+                if (getRowKey(item).equals(rowKey)) {
+                    return item;
+                }
+            }
+        }
+
+        return null;
     }
 }

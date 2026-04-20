@@ -2,6 +2,7 @@ package service;
 
 import client.BookApiClient;
 import dto.BookDto;
+import dto.GenreDto;
 import dto.PageDto;
 import filter.BookFilter;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -40,5 +41,12 @@ public class BookService {
 
     public void deleteBook(int id) {
         bookApiClient.deleteBook(id);
+    }
+
+    public List<BookDto> getBooksByIds(List<Long> ids) {
+
+        return ids.stream()
+                .map(id -> bookApiClient.getBook(id.intValue()))
+                .toList();
     }
 }

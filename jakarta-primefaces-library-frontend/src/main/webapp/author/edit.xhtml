@@ -1,0 +1,44 @@
+<ui:composition template="/templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:f="jakarta.faces.core">
+
+        <f:metadata>
+            <f:viewAction action="#{authorBean.loadFromId}" />
+        </f:metadata>
+
+    <ui:define name="content">
+
+        <h:form id="authorForm">
+
+            <p:panel header="Edit Author">
+
+                <p:messages autoUpdate="true"/>
+
+                <p:panelGrid columns="2" styleClass="ui-fluid">
+
+                    <p:outputLabel value="Name"/>
+                    <p:inputText value="#{authorBean.selected.name}" required="true"/>
+
+                    <p:outputLabel value="Birth Year"/>
+                    <p:inputNumber value="#{authorBean.selected.birthYear}"/>
+
+                </p:panelGrid>
+
+                <p:divider/>
+
+                <p:commandButton value="Save"
+                                 icon="pi pi-save"
+                                 action="#{authorBean.save}"
+                                 update="@form"/>
+
+            </p:panel>
+
+
+        </h:form>
+
+
+    </ui:define>
+</ui:composition>
