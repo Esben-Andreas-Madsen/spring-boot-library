@@ -6,6 +6,7 @@ import io.github.eama.spring_boot_library_backend.api.dto.response.GenreDto;
 import io.github.eama.spring_boot_library_backend.repository.specification.GenreFilter;
 import io.github.eama.spring_boot_library_backend.service.GenreService;
 import jakarta.validation.Valid;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -63,8 +64,9 @@ public class GenreController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<GenreDto>> getGenres(GenreFilter filter,
-                                                    @PageableDefault(size = 20, sort = "name") Pageable pageable) {
+    public ResponseEntity<Page<GenreDto>> getGenres(@ParameterObject GenreFilter filter,
+                                                    @PageableDefault(size = 20, sort = "name")
+                                                    @ParameterObject Pageable pageable) {
 
         Page<GenreDto> foundGenres = genreService.getGenres(filter, pageable);
 

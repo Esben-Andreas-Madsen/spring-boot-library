@@ -5,6 +5,7 @@ import io.github.eama.spring_boot_library_backend.api.dto.request.author.UpdateA
 import io.github.eama.spring_boot_library_backend.api.dto.response.AuthorDto;
 import io.github.eama.spring_boot_library_backend.repository.specification.AuthorFilter;
 import io.github.eama.spring_boot_library_backend.service.AuthorService;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -68,8 +69,9 @@ public class AuthorController {
     // query authors
 
     @GetMapping
-    public ResponseEntity<Page<AuthorDto>> getAuthors(AuthorFilter filter,
-                                                      @PageableDefault(size = 20, sort = "name") Pageable pageable) {
+    public ResponseEntity<Page<AuthorDto>> getAuthors(@ParameterObject AuthorFilter filter,
+                                                      @PageableDefault(size = 20, sort = "name")
+                                                      @ParameterObject Pageable pageable) {
         Page<AuthorDto> foundAuthors = authorService.getAuthors(filter, pageable);
         return ResponseEntity
                 .status(HttpStatus.OK)

@@ -201,7 +201,7 @@ WHERE b.title = 'The Long Earth';
 
 INSERT INTO genres (name)
 SELECT 'Genre ' || gs
-FROM generate_series(1, 20) AS gs;
+FROM generate_series(1, 100) AS gs;
 
 
 -- =========================
@@ -261,5 +261,6 @@ JOIN LATERAL (
     SELECT id
     FROM genres
     ORDER BY random()
-    LIMIT (1 + floor(random() * 4))::int
+    LIMIT (1 + floor(random() * 20))::int
 ) g ON true;
+

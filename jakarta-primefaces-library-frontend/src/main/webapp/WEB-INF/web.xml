@@ -5,8 +5,14 @@
 
     <web-resource-collection>
         <web-resource-name>secured</web-resource-name>
-        <url-pattern>/secure.xhtml</url-pattern>
+        <url-pattern>/profile.xhtml</url-pattern>
+        <url-pattern>/author/*</url-pattern>
+        <url-pattern>/book/*</url-pattern>
+
+
     </web-resource-collection>
+
+
 
     <auth-constraint>
         <role-name>user</role-name>
@@ -14,12 +20,11 @@
 
 </security-constraint>
 
-<login-config>
-    <auth-method>OIDC</auth-method>
-</login-config>
+    <security-role>
+        <role-name>user</role-name>
+    </security-role>
 
-<security-role>
-    <role-name>user</role-name>
-</security-role>
-
+    <login-config>
+        <auth-method>OIDC</auth-method>
+    </login-config>
 </web-app>

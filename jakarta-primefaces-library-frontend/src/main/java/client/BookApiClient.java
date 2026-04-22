@@ -2,12 +2,14 @@ package client;
 
 import dto.BookDto;
 import dto.PageDto;
+import filter.BookFilter;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.microprofile.rest.client.annotation.RegisterClientHeaders;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import security.AuthHeaderFactory;
 
+import java.util.List;
 
 @Path("/api/books")
 @RegisterClientHeaders(AuthHeaderFactory.class)
@@ -19,15 +21,9 @@ public interface BookApiClient {
     PageDto<BookDto> getBooks(
             @QueryParam("page") int page,
             @QueryParam("size") int size,
-            @QueryParam("title") String title,
-            @QueryParam("language") String language,
-            // naming difference between here and backend api
-            @QueryParam("publishedYearFrom") String yearFrom,
-            @QueryParam("publishedYearTo") String yearTo,
-            @QueryParam("isbn") String isbn,
-            @QueryParam("pagesFrom") String pagesFrom,
-            @QueryParam("pagesTo") String pagesTo
-    );
+            @BeanParam BookFilter filter,
+            @QueryParam("sort") List<String> sort
+            );
 
     @GET
     @Path("/{id}")
@@ -36,11 +32,15 @@ public interface BookApiClient {
             @PathParam("id") int id
     );
 
+
     @PUT
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    BookDto editBook(BookDto book);
+    BookDto updateBook(@PathParam("id") Integer id, BookDto book);
 
     @POST
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     BookDto createBook(BookDto book);
 

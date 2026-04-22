@@ -11,9 +11,11 @@ public class BookDto {
     private Integer pages;
     private String language;
 
-    private Set<Integer> authorIds;
+    private Set<Long> authorIds;
+    private Set<Long> genreIds;
 
-    private Set<Integer> genreIds;
+    public BookDto() {
+    }
 
     public Integer getId() {
         return id;
@@ -63,19 +65,19 @@ public class BookDto {
         this.language = language;
     }
 
-    public Set<Integer> getAuthorIds() {
+    public Set<Long> getAuthorIds() {
         return authorIds;
     }
 
-    public void setAuthorIds(Set<Integer> authorIds) {
+    public void setAuthorIds(Set<Long> authorIds) {
         this.authorIds = authorIds;
     }
 
-    public Set<Integer> getGenreIds() {
+    public Set<Long> getGenreIds() {
         return genreIds;
     }
 
-    public void setGenreIds(Set<Integer> genreIds) {
+    public void setGenreIds(Set<Long> genreIds) {
         this.genreIds = genreIds;
     }
 

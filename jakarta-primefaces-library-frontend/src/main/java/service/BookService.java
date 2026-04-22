@@ -2,53 +2,51 @@ package service;
 
 import client.BookApiClient;
 import dto.BookDto;
+import dto.GenreDto;
 import dto.PageDto;
+import filter.BookFilter;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-import java.util.Map;
+import java.util.List;
 
 @ApplicationScoped
 public class BookService {
 
     @Inject
     @RestClient
-    BookApiClient api;
+    BookApiClient bookApiClient;
 
-
-    public PageDto<BookDto> getBooks(int page, int size, Map<String, String> filters) {
-
-        return api.getBooks(
-                page,
-                size,
-                filters.get("title"),
-                filters.get("language"),
-                filters.get("yearFrom"),
-                filters.get("yearTo"),
-                filters.get("isbn"),
-                filters.get("pagesFrom"),
-                filters.get("pagesTo")
-        );
+    public PageDto<BookDto> getBooks(int page, int size, BookFilter filter, List<String> sort) {
+        return bookApiClient.getBooks(page, size, filter, sort);
     }
 
     public PageDto<BookDto> getBooks(int page, int size) {
-        return api.getBooks(page, size, null, null, null, null, null, null, null);
+        return bookApiClient.getBooks(page, size, new BookFilter(), null);
     }
 
     public BookDto getBook(int id) {
-        return api.getBook(id);
+        return bookApiClient.getBook(id);
     }
 
     public BookDto createBook(BookDto book) {
-        return api.createBook(book);
+        System.out.println(book.toString());
+        return bookApiClient.createBook(book);
     }
 
-    public BookDto editBook(BookDto book) {
-        return api.editBook(book);
+    public BookDto updateBook(BookDto book) {
+        return bookApiClient.updateBook(book.getId(), book);
     }
 
     public void deleteBook(int id) {
-        api.deleteBook(id);
+        bookApiClient.deleteBook(id);
+    }
+
+    public List<BookDto> getBooksByIds(List<Long> ids) {
+
+        return ids.stream()
+                .map(id -> bookApiClient.getBook(id.intValue()))
+                .toList();
     }
 }

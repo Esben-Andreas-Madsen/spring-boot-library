@@ -1,0 +1,99 @@
+<ui:composition template="/templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:f="jakarta.faces.core">
+
+    <ui:define name="content">
+
+
+            <h:form id="authorForm">
+
+                <p:dataTable id="dt-authors"
+                             widgetVar="dtAuthors"
+                             var="author"
+                             value="#{authorBean.dataModel}"
+                             lazy="true"
+                             paginator="true"
+                             rows="10"
+                             rowKey="#{author.id}"
+                             filterDelay="500"
+                             allowUnsorting="true">
+
+                    <p:column headerText="Name"
+                              field="name"
+                              sortBy="#{author.name}"
+                              filterBy="#{author.name}"
+                              filterMatchMode="contains">
+                        #{author.name}
+                    </p:column>
+
+                    <p:column headerText="Birth Year"
+                              field="birthYear">
+
+                        #{author.birthYear}
+
+                        <f:facet name="filter">
+                            <div style="display:flex; flex-direction:column; gap:0.5rem;">
+
+                                <p:inputNumber value="#{authorBean.filter.birthYearFrom}" placeholder="From">
+                                    <p:ajax event="change"
+                                            oncomplete="PF('dtAuthors').filter()"
+                                            delay="500"/>
+                                </p:inputNumber>
+
+                                <p:inputNumber value="#{authorBean.filter.birthYearTo}" placeholder="To">
+                                    <p:ajax event="change"
+                                            oncomplete="PF('dtAuthors').filter()"
+                                            delay="500"/>
+                                </p:inputNumber>
+
+                            </div>
+                        </f:facet>
+
+                    </p:column>
+
+                    <p:column headerText="Books">
+                        <ui:repeat value="#{authorBean.getBooksByIds(author.bookIds)}"
+                                   var="book"
+                                   varStatus="s">
+                            #{book.title}#{!s.last ? ', ' : ''}
+                        </ui:repeat>
+                    </p:column>
+
+                    <p:column headerText="Actions" style="width:120px">
+
+                        <p:button icon="pi pi-pencil"
+                                  outcome="/author/edit"
+                                  title="Edit">
+                            <f:param name="id" value="#{author.id}" />
+                        </p:button>
+
+                        <p:commandButton icon="pi pi-trash"
+                                         action="#{authorBean.deleteSelected}"
+                                         update="dt-authors"
+                                         styleClass="ui-button-danger"
+                                         process="@this">
+
+                            <f:setPropertyActionListener value="#{author}" target="#{authorBean.selected}"/>
+
+                            <p:confirm header="Delete?"
+                                       message="Delete this author?"
+                                       icon="pi pi-exclamation-triangle"/>
+                        </p:commandButton>
+
+                    </p:column>
+
+                </p:dataTable>
+
+                <p:confirmDialog global="true">
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes"/>
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"/>
+                </p:confirmDialog>
+
+            </h:form>
+
+
+    </ui:define>
+</ui:composition>

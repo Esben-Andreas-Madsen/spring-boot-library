@@ -7,116 +7,153 @@
 
 <ui:composition template="/templates/layout.xhtml">
 
-    <ui:define name="title">
-        Library - Book List
+    <ui:define name="header">
+        <title>Book List</title>
     </ui:define>
 
     <ui:define name="content">
+        <div>
 
-        <h:form id="bookForm">
+            <h:form id="bookForm">
 
-        <p:dataTable value="#{bookListBean.books}"
-                     widgetVar="booksTable"
-                     var="book"
-                     paginator="true"
-                     rows="10"
-                     lazy="true"
-                     rowKey="#{book.id}"
-                     emptyMessage="No books found"
-                     filterDisplay="row">
+                <p:dataTable id="dt-books"
+                             widgetVar="dtBooks"
+                             var="book"
+                             value="#{bookBean.dataModel}"
+                             lazy="true"
+                             paginator="true"
+                             rows="10"
+                             rowKey="#{book.id}"
+                             filterDelay="500"
+                             allowUnsorting="true">
 
-            <!--
-            <p:column headerText="ID">
-                #{book.id}
-            </p:column>
-            -->
+                    <p:column headerText="Title"
+                              field="title"
+                              sortBy="#{book.title}"
+                              filterBy="#{book.title}"
+                              filterMatchMode="contains">
+                        #{book.title}
+                    </p:column>
 
-            <p:column headerText="Title"
-                      field="title"
-                      filterBy="#{book.title}"
-                      filterMatchMode="contains">
-                #{book.title}
-            </p:column>
+                    <p:column headerText="Authors">
+                        <ui:repeat value="#{bookBean.getAuthorsByIds(book.authorIds)}"
+                                   var="author"
+                                   varStatus="s">
+                            #{author.name}#{!s.last ? ', ' : ''}
+                        </ui:repeat>
+                    </p:column>
 
-            <!--
-            <p:column headerText="Authors">
-                <ui:repeat value="#{bookListBean.getAuthorsByIds(book.authorIds)}" var="author">
-                    #{author.name}
-                </ui:repeat>
-            </p:column>
+                    <p:column headerText="Genres">
+                        <ui:repeat value="#{bookBean.getGenresByIds(book.genreIds)}"
+                                   var="genre"
+                                   varStatus="s">
+                            #{genre.name}#{!s.last ? ', ' : ''}
+                        </ui:repeat>
+                    </p:column>
 
-            <p:column headerText="Genres">
-                <ui:repeat value="#{bookListBean.getGenresByIds(book.genreIds)}" var="genre">
-                    #{genre.name}
-                </ui:repeat>
-            </p:column>
-            -->
+                    <p:column headerText="Language"
+                              field="language"
+                              filterBy="#{book.language}"
+                              filterMatchMode="contains">
+                        #{book.language}
+                    </p:column>
 
-            <p:column headerText="Language"
-                      field="language"
-                      filterBy="#{book.language}"
-                      filterMatchMode="contains">
-                #{book.language}
-            </p:column>
+                    <p:column headerText="Published"
+                              field="publishedYear">
 
-            <p:column headerText="Published"
-                      field="publishedYear">
+                        #{book.publishedYear}
 
-                #{book.publishedYear}
+                        <f:facet name="filter">
+                            <div style="display:flex; flex-direction:column; gap:0.5rem;">
 
-                <f:facet name="filter">
-                    <p:panelGrid columns="2" style="width:50%">
-                        <p:inputNumber value="#{bookListBean.yearFrom}" placeholder="From">
-                            <p:ajax event="keyup"
-                                    oncomplete="PF('booksTable').filter()"
-                                    delay="500"/>
-                        </p:inputNumber>
+                                <p:inputNumber value="#{bookBean.filter.publishedYearFrom}"
+                                               placeholder="From">
+                                    <p:ajax event="change"
+                                            oncomplete="PF('dtBooks').filter()"
+                                            delay="500"/>
+                                </p:inputNumber>
 
-                        <p:inputNumber value="#{bookListBean.yearTo}" placeholder="To">
-                            <p:ajax event="keyup"
-                                    oncomplete="PF('booksTable').filter()"
-                                    delay="500"/>
-                        </p:inputNumber>
-                    </p:panelGrid>
-                </f:facet>
+                                <p:inputNumber value="#{bookBean.filter.publishedYearTo}"
+                                               placeholder="To">
+                                    <p:ajax event="change"
+                                            oncomplete="PF('dtBooks').filter()"
+                                            delay="500"/>
+                                </p:inputNumber>
 
-            </p:column>
+                            </div>
+                        </f:facet>
 
-            <p:column headerText="ISBN"
-                      field="isbn"
-                      filterMatchMode="equals"
-                      filterBy="#{book.isbn}">
-                #{book.isbn}
-            </p:column>
+                    </p:column>
 
-            <p:column headerText="Pages" field="pages">
+                    <p:column headerText="ISBN"
+                              field="isbn"
+                              filterBy="#{book.isbn}"
+                              filterMatchMode="equals">
+                        #{book.isbn}
+                    </p:column>
 
-                #{book.pages}
+                    <p:column headerText="Pages"
+                              field="pages">
 
-                <f:facet name="filter">
-                    <p:panelGrid columns="2" style="width:50%">
-                        <p:inputNumber value="#{bookListBean.pagesFrom}" placeholder="From">
-                            <p:ajax event="keyup"
-                                    oncomplete="PF('booksTable').filter()"
-                                    delay="500"/>
-                        </p:inputNumber>
+                        #{book.pages}
 
-                        <p:inputNumber value="#{bookListBean.pagesTo}" placeholder="To">
-                            <p:ajax event="keyup"
-                                    oncomplete="PF('booksTable').filter()"
-                                    delay="500"/>
-                        </p:inputNumber>
-                    </p:panelGrid>
-                </f:facet>
+                        <f:facet name="filter">
+                            <div style="display:flex; flex-direction:column; gap:0.5rem;">
 
-            </p:column>
+                                <p:inputNumber value="#{bookBean.filter.pagesFrom}"
+                                               placeholder="From">
+                                    <p:ajax event="change"
+                                            oncomplete="PF('dtBooks').filter()"
+                                            delay="500"/>
+                                </p:inputNumber>
 
-        </p:dataTable>
+                                <p:inputNumber value="#{bookBean.filter.pagesTo}"
+                                               placeholder="To">
+                                    <p:ajax event="change"
+                                            oncomplete="PF('dtBooks').filter()"
+                                            delay="500"/>
+                                </p:inputNumber>
 
-        </h:form>
+                            </div>
+                        </f:facet>
 
+                    </p:column>
+
+                    <p:column headerText="Actions" style="width:120px">
+
+                        <p:button icon="pi pi-pencil"
+                                  outcome="/book/edit"
+                                  title="Edit">
+                            <f:param name="id" value="#{book.id}" />
+                        </p:button>
+
+                        <p:commandButton icon="pi pi-trash"
+                                         action="#{bookBean.delete}"
+                                         update="dt-books"
+                                         styleClass="ui-button-danger"
+                                         process="@this">
+
+                            <f:setPropertyActionListener value="#{book}" target="#{bookBean.selected}"/>
+
+                            <p:confirm header="Delete?"
+                                       message="Are you sure you want to delete this book?"
+                                       icon="pi pi-exclamation-triangle"/>
+                        </p:commandButton>
+
+                    </p:column>
+
+                </p:dataTable>
+
+
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes"/>
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"/>
+                </p:confirmDialog>
+
+            </h:form>
+
+        </div>
     </ui:define>
 
 </ui:composition>
 </html>
-

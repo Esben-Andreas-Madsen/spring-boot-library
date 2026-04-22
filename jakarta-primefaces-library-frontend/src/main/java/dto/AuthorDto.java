@@ -8,7 +8,7 @@ public class AuthorDto {
     private String name;
     private Integer birthYear;
 
-    private Set<Integer> bookIds;
+    private Set<Long> bookIds;
 
     public Integer getId() {
         return id;
@@ -34,11 +34,11 @@ public class AuthorDto {
         this.birthYear = birthYear;
     }
 
-    public Set<Integer> getBookIds() {
+    public Set<Long> getBookIds() {
         return bookIds;
     }
 
-    public void setBookIds(Set<Integer> bookIds) {
+    public void setBookIds(Set<Long> bookIds) {
         this.bookIds = bookIds;
     }
 

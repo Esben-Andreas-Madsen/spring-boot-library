@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="jakarta.faces.core">
+
+<ui:composition template="/templates/layout.xhtml">
+
+    <ui:define name="header">
+        <title>Register Book</title>
+    </ui:define>
+
+    <ui:define name="content">
+
+        <h:form id="bookForm">
+
+            <p:panel header="Register Book">
+
+                <p:messages autoUpdate="true"/>
+
+                <p:panelGrid columns="2" columnClasses="label,value" styleClass="ui-fluid">
+
+                    <p:outputLabel value="Title"/>
+                    <p:inputText value="#{bookBean.create.title}" required="true"/>
+
+                    <p:panel header="Authors">
+
+                        <p:dataList value="#{bookBean.selectedAuthors}" var="author" id="authorList">
+                            #{author.name}
+
+                            <p:commandButton icon="pi pi-times"
+                                             action="#{bookBean.removeAuthor(author)}"
+                                             update="authorList"
+                                             styleClass="ui-button-danger ui-button-flat"/>
+                        </p:dataList>
+
+                        <p:commandButton value="Add Author"
+                                         icon="pi pi-plus"
+                                         type="button"
+                                         onclick="PF('authorDialog').show()"/>
+
+                    </p:panel>
+
+                    <p:panel header="Genres">
+
+                        <p:dataList value="#{bookBean.selectedGenres}" var="genre" id="genreList">
+                            #{genre.name}
+
+                            <p:commandButton icon="pi pi-times"
+                                             action="#{bookBean.removeGenre(genre)}"
+                                             update="genreList"
+                                             styleClass="ui-button-danger ui-button-flat"/>
+                        </p:dataList>
+
+                        <p:commandButton value="Add Genre"
+                                         icon="pi pi-plus"
+                                         type="button"
+                                         onclick="PF('genreDialog').show()"/>
+
+                    </p:panel>
+
+                    <p:outputLabel value="Language"/>
+                    <p:inputText value="#{bookBean.create.language}"/>
+
+                    <p:outputLabel value="Published"/>
+                    <p:inputNumber value="#{bookBean.create.publishedYear}"/>
+
+                    <p:outputLabel value="Pages"/>
+                    <p:inputNumber value="#{bookBean.create.pages}"/>
+
+                    <p:outputLabel value="ISBN"/>
+                    <p:inputText value="#{bookBean.create.isbn}"/>
+
+                </p:panelGrid>
+
+                <p:divider/>
+
+                <p:commandButton value="Save"
+                                 icon="pi pi-save"
+                                 action="#{bookBean.save}"
+                                 update="@form"/>
+
+            </p:panel>
+
+
+            <p:dialog header="Select Author"
+                      widgetVar="authorDialog"
+                      modal="true"
+                      width="800">
+
+                <p:dataTable value="#{authorBean.dataModel}"
+                             id="dt-authors"
+                             widgetVar="dtAuthors"
+                             var="author"
+                             lazy="true"
+                             paginator="true"
+                             rows="10"
+                             filterDelay="500"
+                             allowUnsorting="true"
+                             filterEvent="keyup"
+                             filterDisplay="row">
+
+                    <p:column headerText="Name"
+                              field="name"
+                              filterMatchMode="contains">
+                        #{author.name}
+                    </p:column>
+
+                    <p:column headerText="Birth Year">
+                        #{author.birthYear}
+                    </p:column>
+
+                    <p:column style="width:100px">
+
+                        <p:commandButton value="Select"
+                                         action="#{bookBean.addAuthor(author)}"
+                                         update=":bookForm:authorList"
+                                         oncomplete="PF('authorDialog').hide()"/>
+
+                    </p:column>
+
+                </p:dataTable>
+
+            </p:dialog>
+
+            <p:dialog header="Select Genre"
+                      widgetVar="genreDialog"
+                      modal="true"
+                      width="600">
+
+                <p:dataTable value="#{genreBean.dataModel}"
+                             widgetVar="dtGenres"
+                             id="dt-genres"
+                             var="genre"
+                             lazy="true"
+                             paginator="true"
+                             rows="10"
+                             filterDelay="500"
+                             allowUnsorting="true"
+                             filterEvent="keyup"
+                             filterDisplay="row">
+
+                    <p:column headerText="Name"
+                              field="name"
+                              filterMatchMode="contains">
+                    </p:column>
+
+                    <p:column style="width:100px">
+
+                        <p:commandButton value="Select"
+                                         action="#{bookBean.addGenre(genre)}"
+                                         update=":bookForm:genreList"
+                                         oncomplete="PF('genreDialog').hide()"/>
+
+                    </p:column>
+
+                </p:dataTable>
+
+            </p:dialog>
+
+        </h:form>
+
+
+    </ui:define>
+
+</ui:composition>
+</html>

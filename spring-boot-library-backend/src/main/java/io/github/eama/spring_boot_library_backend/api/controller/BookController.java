@@ -5,6 +5,7 @@ import io.github.eama.spring_boot_library_backend.api.dto.request.book.UpdateBoo
 import io.github.eama.spring_boot_library_backend.api.dto.response.BookDto;
 import io.github.eama.spring_boot_library_backend.repository.specification.BookFilter;
 import io.github.eama.spring_boot_library_backend.service.BookService;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -68,8 +69,9 @@ public class BookController {
     // query books
 
     @GetMapping
-    public ResponseEntity<Page<BookDto>> getBooks(BookFilter filter,
-                                                  @PageableDefault(size = 20, sort = "title") Pageable pageable) {
+    public ResponseEntity<Page<BookDto>> getBooks(@ParameterObject BookFilter filter,
+                                                  @PageableDefault(size = 20, sort = "title")
+                                                  @ParameterObject Pageable pageable) {
         Page<BookDto> foundBooks = bookService.getBooks(filter, pageable);
         return ResponseEntity
                 .status(HttpStatus.OK)
