@@ -1,18 +1,26 @@
 # Spring Boot Library Application
 
-Practicing Spring Boot by making a library project with:
-- Books & Authors
-- REST API (may or may not use hypermedia mappers)
-- Postgres DB
-- docker-compose option
-- minikube option
-- (possibly a frontend)
-- oauth2 authentication
+The purpose of this project is to learn new technologies while keeping code quality high, aiming for a real production environment.  
 
-## Description
+### Frontend
 
-### Spring Boot Library – Docker Setup
-Dockerized development environment for a Spring Boot backend secured with OAuth2 (Keycloak) and backed by PostgreSQL.
+- Jakarta EE with JSF Primefaces
+- Keycloak integrated
+- Wildfly deployment
+
+### Backend
+
+- Spring Boot REST API, pageable with filter and sorting
+- Keycloak integrated
+- PostgreSQL + Hibernate + JPA Specifications
+- Swagger/OpenAPI documentation enabled
+
+### DevOps and quality
+
+- Fully containerized with Docker
+- Test-automation with Github Action
+
+## Details
 
 ### Running the Project
 Requires Docker Desktop with [*.docker.internal resolving enabled](https://docs.docker.com/desktop/setup/install/windows-permission-requirements/#privileged-helper)  
