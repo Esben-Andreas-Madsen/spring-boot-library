@@ -14,32 +14,9 @@
 
     <h:outputStylesheet name="primeflex/primeflex.css" />
 
-    <h:outputScript library="jakarta.faces" name="jsf.js" target="head" />
-
 </h:head>
 
 <h:body>
-
-    <!-- GLOBAL AJAX ERROR HANDLER -->
-    <p:ajaxStatus onerror="handleAjaxError(xhr, status, error)" />
-
-    <h:outputScript>
-        jsf.ajax.addOnError(function(data) {
-        console.log("JSF AJAX error:", data);
-
-        var status = data.responseCode;
-
-        if (status === 401) {
-        window.location = '#{request.contextPath}/login.xhtml';
-        }
-        else if (status === 403) {
-        window.location = '#{request.contextPath}/access-denied.xhtml';
-        }
-        else {
-        window.location = '#{request.contextPath}/error.xhtml';
-        }
-        });
-    </h:outputScript>
 
 
     <div>
