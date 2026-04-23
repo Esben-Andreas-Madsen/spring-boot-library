@@ -32,6 +32,7 @@ public interface AuthorApiClient {
     AuthorDto getAuthor(@PathParam("id") int id);
 
     @PUT
+    @RolesAllowed("librarian")
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)

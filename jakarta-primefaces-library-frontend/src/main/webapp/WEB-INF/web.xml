@@ -8,11 +8,7 @@
         <url-pattern>/profile.xhtml</url-pattern>
         <url-pattern>/author/*</url-pattern>
         <url-pattern>/book/*</url-pattern>
-
-
     </web-resource-collection>
-
-
 
     <auth-constraint>
         <role-name>user</role-name>
@@ -22,6 +18,10 @@
 
     <security-role>
         <role-name>user</role-name>
+    </security-role>
+
+    <security-role>
+        <role-name>librarian</role-name>
     </security-role>
 
     <login-config>
