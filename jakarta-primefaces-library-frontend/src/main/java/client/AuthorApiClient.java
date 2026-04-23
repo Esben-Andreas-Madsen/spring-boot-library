@@ -15,8 +15,8 @@ import security.AuthHeaderFactory;
 import java.util.List;
 
 @Path("/api/authors")
-@RegisterClientHeaders(AuthHeaderFactory.class)
 @RegisterProvider(ApiExceptionMapper.class)
+@RegisterClientHeaders(AuthHeaderFactory.class)
 @RegisterRestClient(configKey = "author-api", baseUri = "http://host.docker.internal:8080")
 public interface AuthorApiClient {
 
