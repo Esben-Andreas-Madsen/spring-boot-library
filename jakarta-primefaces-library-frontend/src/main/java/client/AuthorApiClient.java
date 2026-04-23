@@ -2,11 +2,13 @@ package client;
 
 import dto.AuthorDto;
 import dto.PageDto;
+import exception.ApiExceptionMapper;
 import filter.AuthorFilter;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.microprofile.rest.client.annotation.RegisterClientHeaders;
+import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import security.AuthHeaderFactory;
 
@@ -14,6 +16,7 @@ import java.util.List;
 
 @Path("/api/authors")
 @RegisterClientHeaders(AuthHeaderFactory.class)
+@RegisterProvider(ApiExceptionMapper.class)
 @RegisterRestClient(configKey = "author-api", baseUri = "http://host.docker.internal:8080")
 public interface AuthorApiClient {
 

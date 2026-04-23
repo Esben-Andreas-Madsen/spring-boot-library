@@ -11,6 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
@@ -39,6 +41,7 @@ public class AuthorController {
 
     // ---------- CREATE AUTHOR ----------
     @PostMapping
+    @PreAuthorize("hasRole('librarian')")
     public ResponseEntity<AuthorDto> createAuthor(@Valid @RequestBody CreateAuthorRequest request) {
         AuthorDto created = authorService.create(request);
 
@@ -52,6 +55,7 @@ public class AuthorController {
 
     // ---------- UPDATE AUTHOR ----------
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('librarian')")
     public ResponseEntity<AuthorDto> updateAuthor(@PathVariable Integer id, @Valid @RequestBody UpdateAuthorRequest request) {
         AuthorDto updated = authorService.update(id, request);
         return ResponseEntity
@@ -61,6 +65,7 @@ public class AuthorController {
 
     // ---------- DELETE AUTHOR ----------
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('librarian')")
     public ResponseEntity<Void> deleteAuthor(@PathVariable Integer id) {
         authorService.delete(id);
         return ResponseEntity.noContent().build();
@@ -76,6 +81,11 @@ public class AuthorController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(foundAuthors);
+    }
+
+    @GetMapping("/debug")
+    public Object debug(Authentication auth) {
+        return auth.getAuthorities();
     }
 }
 

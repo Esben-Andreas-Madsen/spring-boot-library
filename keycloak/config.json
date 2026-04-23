@@ -71,8 +71,36 @@
       "realmRoles": ["offline_access", "uma_authorization"],
 
       "clientRoles": {
-        "spring-app": ["user", "admin"],
-        "jakarta-frontend": ["user", "admin"]
+        "spring-app": ["user"],
+        "jakarta-frontend": ["user"]
+      },
+
+      "attributes": {
+        "department": "development",
+        "locale": "en"
+      }
+    },
+    {
+      "username": "librarian",
+      "enabled": true,
+      "email": "librarian@example.com",
+      "firstName": "Demo",
+      "lastName": "User",
+      "emailVerified": true,
+
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password",
+          "temporary": false
+        }
+      ],
+
+      "realmRoles": ["librarian", "offline_access", "uma_authorization"],
+
+      "clientRoles": {
+        "spring-app": ["user", "librarian"],
+        "jakarta-frontend": ["user", "librarian"]
       },
 
       "attributes": {
