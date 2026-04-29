@@ -56,6 +56,13 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**"
                         ).permitAll()
+
+                        // allow observability endpoints without auth fot dev
+                        .requestMatchers("/actuator/health", "/actuator/info").permitAll()
+                        .requestMatchers("/actuator/prometheus").permitAll()
+
+
+                        // secure anything else
                         .anyRequest().authenticated()
                 )
 
@@ -70,6 +77,7 @@ public class SecurityConfig {
                         .accessDeniedHandler((req, res, e) ->
                                 res.sendError(HttpServletResponse.SC_FORBIDDEN))
                 )
+
 
                 .build();
     }
